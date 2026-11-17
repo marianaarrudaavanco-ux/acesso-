@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import SeloLinha from '../components/SeloLinha'
-import { linhaPorNumero } from '../data/linhas'
+import { corDoTexto, linhaPorNumero } from '../data/linhas'
 import { estacoesDaLinha } from '../data/estacoes'
 import NaoEncontrado from './NaoEncontrado'
 
@@ -17,17 +17,18 @@ export default function LinhaPage() {
 
   return (
     <article style={{ '--cor-linha': linha.cor } as React.CSSProperties}>
-      <p className="voltar"><Link to="/">← Todas as linhas</Link></p>
-
-      <header className="cabecalho-linha">
-        <SeloLinha numero={linha.numero} tamanho="grande" />
-        <div>
+      <header className="faixa faixa-linha" style={{ background: linha.cor, color: corDoTexto(linha.cor) }}>
+        <p className="voltar"><Link to="/">Todas as linhas</Link></p>
+        <div className="faixa-linha__titulo">
+          <span className="faixa-linha__numero" aria-hidden="true">{linha.numero}</span>
           <h1>Linha {linha.numero}-{linha.nome}</h1>
-          <p>
-            {linha.operadora ? `Operada por ${linha.operadora}` : 'Operadora a confirmar'} · {estacoes.length} estações
-          </p>
         </div>
       </header>
+
+      <dl className="ficha">
+        <div><dt>Operadora</dt><dd>{linha.operadora ?? 'A confirmar'}</dd></div>
+        <div><dt>Estações</dt><dd>{estacoes.length}</dd></div>
+      </dl>
 
       {linha.aviso && <p className="aviso">{linha.aviso}</p>}
       {linha.numero === 17 && (
@@ -47,7 +48,7 @@ export default function LinhaPage() {
               {e.integracoes.length > 0 && (
                 <span className="selos">
                   <span className="sr-only">Integração com</span>
-                  {e.integracoes.map((n) => <SeloLinha key={n} numero={n} />)}
+                  {e.integracoes.map((n) => <SeloLinha key={n} numero={n} tamanho="pequeno" />)}
                 </span>
               )}
             </Link>

@@ -1,6 +1,6 @@
 # AccessMetro SP: portaria do palácio
 
-Você é um agente de IA trabalhando com o grupo da turma 2CDD01 do Senac Nações Unidas no **AccessMetro SP**: um site que ajuda pessoas com deficiência ou mobilidade reduzida a usar o metrô e os trens de São Paulo com autonomia.
+Você é um agente de IA trabalhando com o grupo da turma 2ADM2 do Senac Nações Unidas no **AccessMetro SP**: um site que ajuda pessoas com deficiência ou mobilidade reduzida a usar o metrô e os trens de São Paulo com autonomia.
 Este repositório é o **palácio da memória** do projeto e também guarda o código do site. Tudo o que importa está em arquivo.
 
 ## Como andar

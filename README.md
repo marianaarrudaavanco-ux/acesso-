@@ -2,7 +2,7 @@
 
 Site de acessibilidade no metrô e nos trens de São Paulo: status das linhas, recursos de acessibilidade de cada estação (elevador, banheiro, rampa, piso tátil), mapa e relatos de problemas feitos pelos próprios usuários.
 
-Projeto do curso de Ciência de Dados do Senac Nações Unidas (turma 2CDD01). Entrega: 28/11/2026.
+Projeto da turma 2ADM2 do Senac Nações Unidas. Entrega: 28/11/2026.
 
 ## Onde está cada coisa
 - **Código do site:** `40-produto/app/` (Vite + React + TypeScript)

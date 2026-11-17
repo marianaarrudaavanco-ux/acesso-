@@ -16,8 +16,8 @@
   "integracoes": []
  },
  {
-  "id": "1-ayrton-senna-jardim-sao-paulo",
-  "nome": "Ayrton Senna-Jardim São Paulo",
+  "id": "1-jardim-sao-paulo-ayrton-senna",
+  "nome": "Jardim São Paulo-Ayrton Senna",
   "linha": 1,
   "lat": -23.492417,
   "lon": -46.61711,
@@ -164,8 +164,8 @@
   "integracoes": []
  },
  {
-  "id": "1-saude",
-  "nome": "Saúde",
+  "id": "1-saude-ultrafarma",
+  "nome": "Saúde-Ultrafarma",
   "linha": 1,
   "lat": -23.618609,
   "lon": -46.639237,
@@ -188,8 +188,8 @@
   "integracoes": []
  },
  {
-  "id": "1-jabaquara",
-  "nome": "Jabaquara",
+  "id": "1-jabaquara-comite-paralimpico-brasileiro",
+  "nome": "Jabaquara-Comitê Paralímpico Brasileiro",
   "linha": 1,
   "lat": -23.646483,
   "lon": -46.640991,
@@ -456,8 +456,8 @@
   "integracoes": []
  },
  {
-  "id": "3-patriarca",
-  "nome": "Patriarca",
+  "id": "3-patriarca-vila-re",
+  "nome": "Patriarca-Vila Ré",
   "linha": 3,
   "lat": -23.531183,
   "lon": -46.501382,
@@ -572,8 +572,8 @@
   "integracoes": []
  },
  {
-  "id": "4-vila-sonia",
-  "nome": "Vila Sônia",
+  "id": "4-vila-sonia-professora-elisabeth-tenreiro",
+  "nome": "Vila Sônia-Professora Elisabeth Tenreiro",
   "linha": 4,
   "lat": -23.593418,
   "lon": -46.734758,
@@ -818,7 +818,7 @@
  },
  {
   "id": "7-baltazar-fidelis",
-  "nome": "Baltazar Fidelis",
+  "nome": "Baltazar Fidélis",
   "linha": 7,
   "lat": -23.309892,
   "lon": -46.723619,
@@ -894,8 +894,8 @@
   "integracoes": []
  },
  {
-  "id": "8-domingos-de-morais",
-  "nome": "Domingos de Morais",
+  "id": "8-domingos-de-moraes",
+  "nome": "Domingos de Moraes",
   "linha": 8,
   "lat": -23.51893,
   "lon": -46.721485,
@@ -1087,7 +1087,7 @@
  },
  {
   "id": "9-villa-lobos-jaguare",
-  "nome": "Villa-Lobos-Jaguaré",
+  "nome": "Villa Lobos-Jaguaré",
   "linha": 9,
   "lat": -23.54602,
   "lon": -46.732817,
@@ -1144,8 +1144,8 @@
   "integracoes": []
  },
  {
-  "id": "9-morumbi",
-  "nome": "Morumbi",
+  "id": "9-morumbi-claro",
+  "nome": "Morumbi-Claro",
   "linha": 9,
   "lat": -23.621845,
   "lon": -46.701822,
@@ -1188,8 +1188,8 @@
   "integracoes": []
  },
  {
-  "id": "9-jurubatuba",
-  "nome": "Jurubatuba",
+  "id": "9-jurubatuba-senac",
+  "nome": "Jurubatuba-Senac",
   "linha": 9,
   "lat": -23.677436,
   "lon": -46.702128,
@@ -1220,8 +1220,8 @@
   "integracoes": []
  },
  {
-  "id": "9-mendes-bruno-covas",
-  "nome": "Mendes / Bruno Covas",
+  "id": "9-bruno-covas-mendes-vila-natal",
+  "nome": "Bruno Covas/Mendes-Vila Natal",
   "linha": 9,
   "lat": -23.754291,
   "lon": -46.709279,
@@ -1273,8 +1273,8 @@
   ]
  },
  {
-  "id": "10-mooca",
-  "nome": "Mooca",
+  "id": "10-juventus-mooca",
+  "nome": "Juventus-Mooca",
   "linha": 10,
   "lat": -23.558066,
   "lon": -46.608352,
@@ -1299,8 +1299,8 @@
   ]
  },
  {
-  "id": "10-sao-caetano",
-  "nome": "São Caetano",
+  "id": "10-sao-caetano-do-sul-prefeito-walter-braido",
+  "nome": "São Caetano do Sul-Prefeito Walter Braido",
   "linha": 10,
   "lat": -23.609845,
   "lon": -46.570058,
@@ -1355,8 +1355,8 @@
   "integracoes": []
  },
  {
-  "id": "10-ribeirao-pires",
-  "nome": "Ribeirão Pires",
+  "id": "10-ribeirao-pires-antonio-bespalec",
+  "nome": "Ribeirão Pires-Antônio Bespalec",
   "linha": 10,
   "lat": -23.713827,
   "lon": -46.414541,
@@ -1503,8 +1503,8 @@
   "integracoes": []
  },
  {
-  "id": "11-bras-cubas",
-  "nome": "Brás Cubas",
+  "id": "11-braz-cubas",
+  "nome": "Braz Cubas",
   "linha": 11,
   "lat": -23.536301,
   "lon": -46.22553,
@@ -1653,7 +1653,7 @@
  },
  {
   "id": "13-guarulhos-cecap",
-  "nome": "Guarulhos CECAP",
+  "nome": "Guarulhos-CECAP",
   "linha": 13,
   "lat": -23.447441,
   "lon": -46.493693,
@@ -1661,7 +1661,7 @@
  },
  {
   "id": "13-aeroporto-guarulhos",
-  "nome": "Aeroporto Guarulhos",
+  "nome": "Aeroporto-Guarulhos",
   "linha": 13,
   "lat": -23.433057,
   "lon": -46.493813,

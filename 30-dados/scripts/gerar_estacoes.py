@@ -46,9 +46,33 @@ INICIO = {
 ORDEM_L17 = ["MORUMBI", "CHUCRI ZAIDAN", "VILA CORDEIRO", "CAMPO BELO", "JOSÉ DINIZ",
              "BROOKLIN PAULISTA", "AEROPORTO DE CONGONHAS", "WASHINGTON LUIS"]
 
-# Nomes que a base escreve diferente do nome usado nas estações.
-NOMES = {"JOSÉ DINIZ": "Vereador José Diniz", "WASHINGTON LUIS": "Washington Luís",
-         "LAPA (LINHA 7)": "Lapa", "LAPA (LINHA 8)": "Lapa", "SANTO AMARO (LINHA 9)": "Santo Amaro"}
+# Nomes oficiais que a base escreve diferente (ou sem o complemento/patrocínio).
+# Chave: (linha, nome na base). Fonte: tabelas de estações das páginas de cada linha na
+# Wikipédia em inglês, conferidas em 2026-11-17 (links em 30-dados/linhas.md).
+NOMES = {
+    (17, "JOSÉ DINIZ"): "Vereador José Diniz",
+    (17, "WASHINGTON LUIS"): "Washington Luís",
+    (7, "LAPA (LINHA 7)"): "Lapa",
+    (8, "LAPA (LINHA 8)"): "Lapa",
+    (9, "SANTO AMARO (LINHA 9)"): "Santo Amaro",
+    (1, "AYRTON SENNA-JARDIM SÃO PAULO"): "Jardim São Paulo-Ayrton Senna",
+    (1, "SAÚDE"): "Saúde-Ultrafarma",
+    (1, "JABAQUARA"): "Jabaquara-Comitê Paralímpico Brasileiro",
+    (3, "PATRIARCA"): "Patriarca-Vila Ré",
+    (4, "VILA SÔNIA"): "Vila Sônia-Professora Elisabeth Tenreiro",
+    (7, "BALTAZAR FIDELIS"): "Baltazar Fidélis",
+    (8, "DOMINGOS DE MORAIS"): "Domingos de Moraes",
+    (9, "VILLA-LOBOS - JAGUARÉ"): "Villa Lobos-Jaguaré",
+    (9, "MORUMBI"): "Morumbi-Claro",
+    (9, "JURUBATUBA"): "Jurubatuba-Senac",
+    (9, "MENDES / BRUNO COVAS"): "Bruno Covas/Mendes-Vila Natal",
+    (10, "MOOCA"): "Juventus-Mooca",
+    (10, "SÃO CAETANO"): "São Caetano do Sul-Prefeito Walter Braido",
+    (10, "RIBEIRÃO PIRES"): "Ribeirão Pires-Antônio Bespalec",
+    (11, "BRÁS CUBAS"): "Braz Cubas",
+    (13, "GUARULHOS CECAP"): "Guarulhos-CECAP",
+    (13, "AEROPORTO GUARULHOS"): "Aeroporto-Guarulhos",
+}
 
 SIGLAS = {"AACD", "USP", "MASP", "CECAP", "II"}
 MINUSCULAS = {"de", "da", "do", "das", "dos", "e"}
@@ -65,9 +89,9 @@ def ponto(geom: bytes) -> tuple[float, float]:
     return round(lat, 6), round(lon, 6)
 
 
-def nome_bonito(bruto: str) -> str:
-    if bruto in NOMES:
-        return NOMES[bruto]
+def nome_bonito(linha: int, bruto: str) -> str:
+    if (linha, bruto) in NOMES:
+        return NOMES[(linha, bruto)]
     palavras = []
     for i, p in enumerate(bruto.replace("-", " - ").replace("/", " / ").split()):
         if p in SIGLAS:
@@ -154,7 +178,7 @@ def main():
         else:
             ordem = ordenar(estacoes, INICIO[linha])
         for e in ordem:
-            nome = nome_bonito(e["bruto"])
+            nome = nome_bonito(linha, e["bruto"])
             saida.append({"id": f"{linha}-{slug(nome)}", "nome": nome, "linha": linha,
                           "lat": e["coord"][0], "lon": e["coord"][1]})
 

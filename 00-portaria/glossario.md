@@ -5,6 +5,7 @@
 | AccessMetro SP | Nome do projeto (também aparece como Acesso+ e AcessMetrô) |
 | PCD | Pessoa com deficiência |
 | Mobilidade reduzida | Idosos, gestantes, pessoas com criança de colo, lesões temporárias etc. |
+| Teste em campo | Ida do grupo a uma estação para testar um recurso; registrado em `40-produto/app/src/data/vistorias.md` (D-007) |
 | Relato | Aviso feito por um usuário sobre um problema numa estação (ex.: elevador parado), estilo Waze. Ver `30-dados/relatos-colaborativos.md` |
 | Confirmação | Voto de outro usuário dizendo "ainda está assim" ou "já resolveu" num relato |
 | Status da linha | Situação operacional oficial: Operação Normal, Velocidade Reduzida, Paralisada etc. |

@@ -6,3 +6,5 @@
 | D-003 | Dados reais onde existem; relatos colaborativos e lotação estimada onde não | Valendo | `80-memoria/decisoes/D-003_estrategia-de-dados.md` |
 | D-004 | Cobrir todas as linhas de metrô e trem de SP | Valendo | `80-memoria/decisoes/D-004_todas-as-linhas.md` |
 | D-005 | Estações do GeoSampa geradas por script; "Como chegar" abre o Google Maps | Proposta | `80-memoria/decisoes/D-005_estacoes-geosampa.md` |
+| D-006 | Visual de sinalização do metrô; mapa CARTO com ruas, bairros e traçado das linhas | Proposta | `80-memoria/decisoes/D-006_repaginada-sinalizacao.md` |
+| D-007 | Situação dos recursos vem de testes em campo do grupo, numa tabela que o site lê | Valendo | `80-memoria/decisoes/D-007_testes-em-campo.md` |
