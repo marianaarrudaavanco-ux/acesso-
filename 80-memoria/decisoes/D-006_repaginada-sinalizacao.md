@@ -1,5 +1,5 @@
 # D-006: Visual de sinalização do metrô e mapa com ruas e traçados
-- **Data:** 2026-11-17 · **Quem decidiu:** Enzo (pediu a repaginada), claude (proposta) · **Status:** Proposta
+- **Data:** 2026-11-17 · **Quem decidiu:** Enzo (pediu a repaginada), claude (proposta) · **Status:** Proposta; a parte do mapa foi substituída por D-008
 ## Contexto
 O Enzo achou o primeiro protótipo com "cara de vibe coding" e o mapa sem referência: só bolinhas, sem ruas nem bairros. A paleta ele aprovou.
 ## Decisão

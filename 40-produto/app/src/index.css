@@ -1,8 +1,10 @@
 /*
  * AccessMetro SP
  * Linguagem visual da sinalização do metrô: faixas retas, cantos vivos, listas separadas
- * por fios, como um quadro de horários. Assinatura: o amarelo do piso tátil.
+ * por fios, como um quadro de horários. Sobre o mapa, a interface flutua em vidro líquido
+ * (receita da skill front-design-supremo) para o mapa aparecer por trás.
  * Cores sempre por variável, nunca hex solto nos componentes.
+ * --piso é o acento de cada paleta (no padrão, o amarelo do piso tátil).
  */
 :root {
   --tinta: #14161a;        /* texto, topo, faixas escuras */
@@ -18,6 +20,7 @@
   --largura: 1040px;
   --margem: clamp(1rem, 4vw, 2rem);
   --toque: 48px;           /* altura mínima de tudo que se toca */
+  --voce: #1a56db;         /* azul do "você está aqui" e da rota (igual em MapaSP.tsx) */
 
   font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
   font-size: 112.5%;       /* 18px: mais fácil de ler na rua */
@@ -25,6 +28,16 @@
   color: var(--tinta);
   background: var(--papel);
   -webkit-text-size-adjust: 100%;
+}
+
+/* Paletas da prévia (PaletaPrevia.tsx). A vencedora vira o :root acima. */
+:root[data-paleta='placa'] {
+  --tinta: #0b1f4b; --tinta-2: #1b336b; --papel: #f2f4f8; --suave: #45506a; --fio: #c3cad8;
+  --piso: #3ec6e0; --piso-relevo: #1c9fb8;
+}
+:root[data-paleta='sinal'] {
+  --tinta: #24262b; --tinta-2: #3a3d44; --papel: #faf9f7; --suave: #4d5058; --fio: #d0cdc6;
+  --piso: #ff6b3d; --piso-relevo: #d9481c;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -121,12 +134,12 @@ main { flex: 1; width: 100%; max-width: var(--largura); margin: 0 auto; padding:
 .busca { display: grid; gap: .4rem; max-width: 36rem; }
 .busca label { font-weight: 700; color: var(--piso); }
 .busca input {
-  font: inherit; font-size: 1.15rem; min-height: 3.5rem; padding: 0 1rem; width: 100%;
-  border: 0; border-radius: 0; background: var(--branco); color: var(--tinta);
+  font: inherit; font-size: 1.15rem; min-height: 3.5rem; padding: 0 1.25rem; width: 100%;
+  border: 0; border-radius: 999px; background: var(--branco); color: var(--tinta);
 }
 .busca__saida { max-width: 36rem; }
 .busca__contagem { margin: .75rem 0 .25rem; font-size: .9rem; }
-.resultados { background: var(--branco); color: var(--tinta); }
+.resultados { background: var(--branco); color: var(--tinta); border-radius: 18px; overflow: hidden; margin-top: .25rem; }
 .resultados li + li { border-top: 1px solid var(--fio); }
 .resultados a {
   display: flex; align-items: center; justify-content: space-between; gap: .75rem;
@@ -183,6 +196,17 @@ main { flex: 1; width: 100%; max-width: var(--largura); margin: 0 auto; padding:
 }
 .diagrama__nome { font-weight: 700; font-size: 1.05rem; }
 
+/* A faixa desce como um trem percorrendo a linha; cada estação acende quando ela chega
+ * (--d vem do Linha.tsx). Com "reduzir movimento", tudo aparece pronto (bloco no fim). */
+@keyframes faixa-desce { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes estacao-acende {
+  0% { transform: scale(.6); background: var(--branco); }
+  55% { transform: scale(1.18); background: var(--cor-linha); }
+  100% { transform: scale(1); background: var(--branco); }
+}
+.diagrama::before { transform-origin: top; animation: faixa-desce 1.1s linear both; }
+.diagrama__ponto { animation: estacao-acende .5s cubic-bezier(.34,1.56,.64,1) both; animation-delay: var(--d, 0ms); }
+
 /* ---------- Página da estação: a placa ---------- */
 .placa { padding-top: 1rem; border-bottom: 10px solid var(--cor-linha); }
 .placa .voltar a { color: var(--branco); }
@@ -192,7 +216,7 @@ main { flex: 1; width: 100%; max-width: var(--largura); margin: 0 auto; padding:
 .botao {
   display: inline-flex; align-items: center; justify-content: center; min-height: 3.5rem; padding: 0 1.5rem;
   margin-top: 1.5rem; background: var(--piso); color: var(--tinta); font-weight: 700; font-size: 1.05rem;
-  text-decoration: none; border: 2px solid var(--tinta);
+  text-decoration: none; border: 2px solid var(--tinta); border-radius: 999px;
 }
 .botao:hover { background: var(--tinta); color: var(--piso); }
 
@@ -254,6 +278,168 @@ main { flex: 1; width: 100%; max-width: var(--largura); margin: 0 auto; padding:
 .fontes { display: grid; gap: .35rem; font-size: .9rem; }
 .fontes a { color: var(--suave); }
 
+
+/* ---------- Vidro líquido (front-design-supremo, seção 6) ----------
+ * Desfoque baixo e saturação alta: o que dá a sensação de vidro é a borda com reflexo,
+ * não o fosco. Tom claro, porque fica sobre o mapa claro. Sem suporte: cor sólida. */
+@property --mx { syntax: '<percentage>'; inherits: true; initial-value: 24%; }
+@property --glow { syntax: '<number>'; inherits: true; initial-value: .55; }
+.vidro {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.42) 55%, rgba(255,255,255,.55));
+  -webkit-backdrop-filter: blur(6px) saturate(185%) brightness(1.05);
+  backdrop-filter: blur(6px) saturate(185%) brightness(1.05);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.9), inset 0 -1px 1px rgba(255,255,255,.35),
+    inset 0 0 0 1px rgba(255,255,255,.35), 0 10px 30px rgba(6,10,28,.18), 0 1px 3px rgba(6,10,28,.12);
+  transition: --mx 1.2s cubic-bezier(.45,0,.2,1), --glow .9s ease, background .45s ease;
+}
+.vidro.hover { --glow: 1; transition: --mx .45s cubic-bezier(.2,.8,.2,1), --glow .35s ease, background .45s ease; }
+.vidro::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
+  background: radial-gradient(220px 90px at var(--mx) 0%, rgba(255,255,255,calc(var(--glow) * .6)), transparent 70%);
+}
+.vidro::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; padding: 1px;
+  background: linear-gradient(115deg, rgba(255,255,255,.95), rgba(255,255,255,.12) 28%, transparent 50%, rgba(255,255,255,.12) 72%, rgba(255,255,255,.7));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .vidro { background: var(--branco); }
+}
+
+/* ---------- Tela do mapa ---------- */
+/* O mapa preenche o que sobra da tela abaixo do topo (o topo muda de altura no celular). */
+main.main--mapa { max-width: none; padding: 0; position: relative; display: flex; }
+.tela-mapa { position: relative; flex: 1; min-height: 460px; overflow: hidden; }
+/* Seletor mais forte que o .maplibregl-map do MapLibre, que põe position: relative e zera a altura. */
+.tela-mapa > .mapa-sp { position: absolute; inset: 0; background: #e9ebe4; }
+.mapa-sp .maplibregl-ctrl-attrib { font-family: inherit; font-size: .72rem; }
+
+.busca-flutuante { position: absolute; z-index: 4; /* acima do painel: os resultados abrem por cima dele */ top: .9rem; left: .9rem; right: .9rem; max-width: 26rem; }
+.busca-flutuante__campo {
+  display: flex; align-items: center; gap: .6rem; min-height: 3.4rem; padding: 0 1rem; border-radius: 999px; color: var(--tinta);
+}
+.busca-flutuante__campo input {
+  flex: 1; min-width: 0; height: 3.4rem; border: 0; background: transparent; font: inherit; font-size: 1.05rem; color: var(--tinta);
+}
+.busca-flutuante__campo input:focus, .busca-flutuante__campo input:focus-visible { outline: none; box-shadow: none; }
+/* O foco aparece no campo inteiro (regra abaixo), não duplicado dentro dele. */
+.busca-flutuante__campo:focus-within { box-shadow: 0 0 0 3px var(--tinta), 0 0 0 7px var(--piso), 0 10px 30px rgba(6,10,28,.18); }
+.busca-flutuante__resultados { margin-top: .5rem; border-radius: 18px; padding: .35rem; }
+.busca-flutuante__resultados button {
+  display: flex; width: 100%; align-items: center; justify-content: space-between; gap: .75rem;
+  min-height: var(--toque); padding: .3rem .8rem; border: 0; border-radius: 12px; background: transparent;
+  font: inherit; font-weight: 700; color: var(--tinta); text-align: left; cursor: pointer;
+}
+.busca-flutuante__resultados button:hover { background: rgba(255,255,255,.7); }
+.busca-flutuante__vazio { padding: .6rem .8rem; }
+
+.controles-mapa { position: absolute; z-index: 2; right: .9rem; top: 5rem; display: grid; gap: .5rem; }
+.botao-vidro {
+  width: 52px; height: 52px; border-radius: 50%; border: 0; display: grid; place-items: center;
+  color: var(--tinta); cursor: pointer; font: inherit;
+}
+.botao-vidro[aria-pressed='true'] { color: var(--voce); }
+.controle-sinal { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+
+/* Painel que sobe de baixo (no computador, fica na lateral esquerda). */
+.painel {
+  position: absolute; z-index: 3; left: .6rem; right: .6rem; bottom: .6rem;
+  max-height: 58%; display: flex; flex-direction: column; border-radius: 24px; color: var(--tinta);
+  transition: max-height .35s cubic-bezier(.2,.8,.2,1);
+}
+.painel:not(.painel--aberto) { max-height: 44px; }
+.painel__alca {
+  flex: none; height: 44px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center;
+}
+.painel__alca:focus-visible { outline-offset: -4px; }
+.painel__puxador { width: 44px; height: 5px; border-radius: 3px; background: var(--tinta); opacity: .45; }
+.painel__conteudo { overflow-y: auto; padding: 0 1.1rem 1.1rem; overscroll-behavior: contain; }
+.painel h2 { font-size: 1.35rem; margin-bottom: .35rem; }
+.painel h2:focus { outline: none; }
+.painel__texto { color: var(--suave); }
+.painel__erro { color: var(--ruim); font-weight: 700; }
+.painel__erro a { color: var(--tinta); }
+.painel__rodape { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1rem; padding-top: .9rem; border-top: 1px solid rgba(20,22,26,.15); }
+.filtro-linha { display: flex; align-items: center; gap: .5rem; font-weight: 700; }
+.filtro-linha select {
+  font: inherit; min-height: 44px; padding: 0 .6rem; border: 2px solid var(--tinta); border-radius: 12px;
+  background: rgba(255,255,255,.8); color: var(--tinta); max-width: 13rem;
+}
+.link-forte { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+
+@media (min-width: 52rem) {
+  .painel { left: .9rem; right: auto; top: 5.2rem; bottom: auto; width: 24rem; max-height: calc(100% - 6.1rem); }
+  .painel:not(.painel--aberto) { max-height: 44px; bottom: auto; }
+}
+
+.botao-acento, .botao-contorno {
+  display: inline-flex; align-items: center; justify-content: center; min-height: var(--toque); padding: 0 1.15rem;
+  border-radius: 999px; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none;
+}
+.botao-acento { background: var(--tinta); color: var(--branco); border: 2px solid var(--tinta); }
+.botao-acento:hover { background: var(--tinta-2); }
+.botao-contorno { background: rgba(255,255,255,.75); color: var(--tinta); border: 2px solid var(--tinta); }
+.botao-contorno:hover { background: var(--branco); }
+.botao-acento:disabled, .botao-contorno:disabled { opacity: .55; cursor: progress; }
+
+.lista-perto li + li { border-top: 1px solid rgba(20,22,26,.12); }
+.lista-perto button {
+  display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: .6rem; width: 100%;
+  min-height: 3.2rem; padding: .35rem .2rem; border: 0; background: transparent; font: inherit; color: var(--tinta);
+  text-align: left; cursor: pointer;
+}
+.lista-perto button:hover .lista-perto__nome { text-decoration: underline; }
+.lista-perto__nome { font-weight: 700; }
+.lista-perto__dist { color: var(--suave); font-variant-numeric: tabular-nums; font-size: .9rem; min-width: 4rem; text-align: right; }
+
+.painel-estacao__topo { display: flex; justify-content: space-between; align-items: flex-start; gap: .75rem; }
+.painel-estacao__topo .selos { margin: 0; gap: .3rem; }
+.painel-estacao__dist { color: var(--suave); font-size: .85rem; margin-left: .3rem; }
+.botao-fechar {
+  flex: none; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--tinta);
+  background: rgba(255,255,255,.75); font: inherit; font-size: 1.5rem; line-height: 1; color: var(--tinta); cursor: pointer;
+}
+.painel-estacao__testes { margin: .75rem 0; color: var(--suave); }
+.painel-estacao__acoes { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .5rem; }
+
+.passos { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid rgba(20,22,26,.15); }
+.passos__resumo { font-size: 1.1rem; margin-bottom: .6rem; }
+.passos__resumo strong { font-size: 1.5rem; }
+.passos ol { counter-reset: passo; display: grid; gap: .1rem; margin-bottom: .75rem; }
+.passos li { counter-increment: passo; position: relative; padding: .45rem 0 .45rem 2.4rem; border-bottom: 1px solid rgba(20,22,26,.1); }
+.passos li::before {
+  content: counter(passo); position: absolute; left: 0; top: .4rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+  display: grid; place-items: center; font-size: .8rem; font-weight: 700; background: var(--voce); color: var(--branco);
+}
+
+/* ---------- Prévia de paletas ---------- */
+.paleta-previa {
+  position: fixed; z-index: 50; left: 50%; translate: -50% 0; bottom: .75rem; max-width: calc(100vw - 1rem);
+  display: flex; flex-wrap: nowrap; align-items: center; gap: .3rem; padding: .35rem;
+  background: var(--tinta); color: var(--branco); border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.3);
+}
+.paleta-previa__rotulo { font-size: .8rem; padding: 0 .4rem; }
+.paleta-previa button {
+  display: inline-flex; align-items: center; gap: .4rem; min-height: 40px; padding: 0 .7rem; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.3); background: transparent; color: inherit; font: inherit; font-size: .85rem; cursor: pointer;
+  white-space: nowrap;
+}
+.paleta-previa button[aria-pressed='true'] { background: var(--branco); color: #14161a; }
+.paleta-previa__amostra { width: 16px; height: 16px; border-radius: 50%; flex: none; }
+@media (max-width: 30rem) {
+  .paleta-previa__rotulo { display: none; }
+  .paleta-previa button { padding: 0 .55rem; min-height: 44px; }
+}
+.paleta-previa__amostra--piso { background: linear-gradient(90deg, #14161a 50%, #ffc72c 50%); }
+.paleta-previa__amostra--placa { background: linear-gradient(90deg, #0b1f4b 50%, #3ec6e0 50%); }
+.paleta-previa__amostra--sinal { background: linear-gradient(90deg, #24262b 50%, #ff6b3d 50%); }
+
+.busca-faixa__sub { margin: -.75rem 0 1.25rem; }
+
+/* Quem pediu menos movimento vê tudo pronto. O *::before é necessário: * sozinho não pega
+ * pseudo-elementos, e a faixa do diagrama é um ::before. */
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }

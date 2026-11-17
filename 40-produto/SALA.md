@@ -5,7 +5,7 @@
 
 ## Stack (D-002)
 - Vite + React + TypeScript, com React Router
-- Leaflet (`react-leaflet`) com fundo CARTO Voyager (dados do OpenStreetMap) para o mapa (D-006)
+- MapLibre GL com o estilo Liberty do OpenFreeMap para o mapa; rotas a pé pelo Valhalla (D-008)
 - Fonte Atkinson Hyperlegible (feita para baixa visão), servida pelo próprio site (`@fontsource`)
 - Supabase para os relatos colaborativos (ainda não usado)
 - Vercel para o deploy
@@ -13,7 +13,13 @@
 ## Arquivos
 | Arquivo | O que é |
 |---|---|
-| `40-produto/app/src/main.tsx` | Rotas: `/`, `/linha/:numero`, `/estacao/:id`, `/mapa`, `/guia` |
+| `40-produto/app/src/main.tsx` | Rotas: `/` (mapa), `/linhas`, `/linha/:numero`, `/estacao/:id`, `/guia` |
+| `40-produto/app/src/pages/Inicio.tsx` | Tela inicial: mapa, busca, onde estou, painel com estação e rota |
+| `40-produto/app/src/mapa/MapaSP.tsx` | O mapa e as nossas camadas (linhas, estações, você, rota) |
+| `40-produto/app/src/mapa/rota.ts` | Pede a rota ao Valhalla e decodifica o caminho |
+| `40-produto/app/src/mapa/geo.ts` | Distância e estações mais perto |
+| `40-produto/app/src/components/useBrilhoVidro.ts` | Brilho do vidro que segue o mouse |
+| `40-produto/app/src/components/PaletaPrevia.tsx` | Seletor das 3 paletas, só com `?paletas` no endereço (D-009) |
 | `40-produto/app/src/App.tsx` | Topo, menu, rodapé; leva o foco ao conteúdo quando a tela muda |
 | `40-produto/app/src/pages/` | Uma tela por arquivo |
 | `40-produto/app/src/components/SeloLinha.tsx` | Selo colorido com o número da linha |
@@ -44,7 +50,8 @@ Quem importa é a dona do repositório (a Vercel só faz deploy automático de r
 4. Deploy. Depois, Settings → Members para convidar o resto do grupo.
 
 ## Regras desta sala
-- Visual de sinalização (D-006): cantos retos, sem sombra, fios entre itens, ícones SVG. Nada de emoji nem cartão arredondado.
+- Visual (D-006 e D-009): conteúdo no estilo de sinalização (fios entre itens, ícones SVG, sem emoji nem cartão); controles arredondados; vidro só sobre o mapa.
+- Toda animação respeita "reduzir movimento" (estado final direto).
 - `npm run build` passa antes de qualquer commit de código.
 - Toda tela funciona com teclado e leitor de tela; contraste mínimo WCAG AA; alvo de toque com 48 px de altura.
 - Onde não há dado com fonte, a tela diz "não verificado" ou "em breve". Nunca dado de exemplo apresentado como real.

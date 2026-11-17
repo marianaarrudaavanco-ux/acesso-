@@ -5,9 +5,9 @@ import { LINHAS, type Linha } from '../data/linhas'
 import { ESTACOES, estacoesDaLinha, semAcento } from '../data/estacoes'
 
 function terminais(linha: Linha): string {
-  if (linha.numero === 17) return 'Morumbi · Congonhas · Washington Luís'
+  if (linha.numero === 17) return 'Morumbi até Congonhas e Washington Luís'
   const lista = estacoesDaLinha(linha.numero)
-  return `${lista[0].nome} · ${lista[lista.length - 1].nome}`
+  return `${lista[0].nome} até ${lista[lista.length - 1].nome}`
 }
 
 function ListaLinhas({ titulo, tipo }: { titulo: string; tipo: Linha['tipo'] }) {
@@ -54,7 +54,8 @@ export default function Linhas() {
   return (
     <>
       <section className="faixa faixa--escura busca-faixa">
-        <h1 className="busca-faixa__titulo">Elevador, banheiro, rampa e piso tátil em cada estação de metrô e trem de São Paulo.</h1>
+        <h1 className="busca-faixa__titulo">Linhas e estações</h1>
+        <p className="busca-faixa__sub">Todas as 14 linhas de metrô e trem de São Paulo, estação por estação.</p>
 
         <form role="search" className="busca" onSubmit={(ev) => ev.preventDefault()}>
           <label htmlFor={idBusca}>Buscar estação</label>

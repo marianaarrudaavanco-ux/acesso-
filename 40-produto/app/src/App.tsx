@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import PaletaPrevia from './components/PaletaPrevia'
 
 export default function App() {
   const { pathname } = useLocation()
   const principal = useRef<HTMLElement>(null)
+  // No início o mapa ocupa a tela inteira: sem rodapé e sem margens.
+  const telaDeMapa = pathname === '/'
 
   // Ao trocar de tela, volta pro topo e leva o foco pro conteúdo novo.
   // Sem isso, quem usa leitor de tela não percebe que a página mudou.
@@ -23,8 +26,8 @@ export default function App() {
           </Link>
           <nav aria-label="Principal">
             <ul className="menu">
-              <li><NavLink to="/" end>Linhas</NavLink></li>
-              <li><NavLink to="/mapa">Mapa</NavLink></li>
+              <li><NavLink to="/" end>Mapa</NavLink></li>
+              <li><NavLink to="/linhas">Linhas</NavLink></li>
               <li><NavLink to="/guia">Guia</NavLink></li>
             </ul>
           </nav>
@@ -32,21 +35,24 @@ export default function App() {
       </header>
       <div className="piso-tatil" aria-hidden="true" />
 
-      <main id="conteudo" ref={principal} tabIndex={-1}>
+      <main id="conteudo" ref={principal} tabIndex={-1} className={telaDeMapa ? 'main--mapa' : undefined}>
         <Outlet />
       </main>
 
-      <footer className="rodape">
-        <div className="rodape__dentro">
-          <p>
-            <strong>AccessMetro SP</strong> · projeto da turma 2ADM2 do Senac Nações Unidas.
-          </p>
-          <p>
-            Estações e linhas: GeoSampa (Prefeitura de São Paulo). Mapa: © OpenStreetMap, © CARTO.
-            Protótipo: confira sempre os avisos oficiais nas estações.
-          </p>
-        </div>
-      </footer>
+      {!telaDeMapa && (
+        <footer className="rodape">
+          <div className="rodape__dentro">
+            <p>
+              <strong>AccessMetro SP</strong>, projeto da turma 2ADM2 do Senac Nações Unidas.
+            </p>
+            <p>
+              Estações e linhas: GeoSampa (Prefeitura de São Paulo). Mapa: OpenFreeMap, © OpenMapTiles, © colaboradores
+              do OpenStreetMap. Protótipo: confira sempre os avisos oficiais nas estações.
+            </p>
+          </div>
+        </footer>
+      )}
+      <PaletaPrevia />
     </>
   )
 }
