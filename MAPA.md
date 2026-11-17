@@ -29,12 +29,15 @@
 | `30-dados/fontes-de-dados.md` | De onde vem cada dado do site (real, estimado ou colaborativo) |
 | `30-dados/linhas.md` | Todas as linhas de SP: número, cor, operadora, situação |
 | `30-dados/relatos-colaborativos.md` | Como funcionam os relatos estilo Waze (regras e tabelas) |
+| `30-dados/scripts/gerar_estacoes.py` | Gera o JSON de estações do app a partir do GeoSampa |
 
 ## Ala 40 · Produto
 | Onde | O que você acha |
 |---|---|
 | `40-produto/SALA.md` | Porta da ala: stack, como rodar, deploy |
 | `40-produto/app/` | Código do site (Vite + React + TypeScript) |
+| `40-produto/app/src/pages/` | Uma tela por arquivo (Linhas, Linha, Estação, Mapa, Guia) |
+| `40-produto/app/src/data/` | Linhas, estações (JSON gerado) e recursos |
 
 ## Ala 80 · Memória
 | Onde | O que você acha |
@@ -48,3 +51,4 @@
 | Onde | O que você acha |
 |---|---|
 | `90-arquivo/fontes/` | Originais que chegaram de fora (não editar) |
+| `90-arquivo/fontes/2026-04-10_geosampa_estacoes/` | Estações do GeoSampa (base das 211 estações) |

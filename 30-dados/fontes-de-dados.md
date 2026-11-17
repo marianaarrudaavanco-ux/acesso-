@@ -1,13 +1,19 @@
 # Fontes de dados
-> Pesquisa de 2026-11-11 (diário `80-memoria/diario/2026-11-17_claude_montagem-do-palacio.md`). Decisão: D-003.
+> Decisões: D-003 (estratégia) e D-005 (estações do GeoSampa).
 
-| Dado | Tipo | Fonte | Como entra no site |
-|---|---|---|---|
-| Linhas, estações, coordenadas | Real, fixo | GTFS público (inclui linhas CPTM: https://ipeagit.github.io/intro_access_book/4_dados_gtfs.en.html) e OpenStreetMap | Arquivo de dados dentro do app |
-| Recursos de acessibilidade por estação (elevador, banheiro, rampa, piso tátil) | Real, fixo | Páginas das operadoras e OpenStreetMap `[a confirmar qual fonte cobre melhor]` | Arquivo de dados dentro do app |
-| Status das linhas (Normal, Velocidade Reduzida, Paralisada) | Real, ao vivo | Sites oficiais; não há API oficial. Projeto de referência que já lê essas páginas: https://github.com/caian-org/tpsp | Função na Vercel `/api/status` lê a página e devolve JSON |
-| Elevador/banheiro com problema agora | Colaborativo | Relatos dos usuários | Supabase (`30-dados/relatos-colaborativos.md`) |
-| Lotação | Estimado | Horário de pico vs. fora de pico `[a confirmar critério]` | Calculado no app, rotulado "estimativa" |
+| Dado | Tipo | Fonte | Como entra no site | Estado |
+|---|---|---|---|---|
+| Linhas, estações, coordenadas, ordem, integrações | Real, fixo | GeoSampa (`90-arquivo/fontes/2026-04-10_geosampa_estacoes/`) | `30-dados/scripts/gerar_estacoes.py` gera `40-produto/app/src/data/estacoes.json` | Pronto (211 estações, 14 linhas) |
+| Recursos de acessibilidade por estação (elevador, banheiro, rampa, piso tátil) | Real, fixo | Páginas das operadoras e OpenStreetMap `[a confirmar qual fonte cobre melhor]` | Arquivo de dados dentro do app | Não levantado; o site mostra "Não verificado" |
+| Status das linhas (Normal, Velocidade Reduzida, Paralisada) | Real, ao vivo | Sites oficiais; não há API oficial. Projeto de referência que já lê essas páginas: https://github.com/caian-org/tpsp | Função na Vercel `/api/status` lê a página e devolve JSON | Não começado |
+| Elevador/banheiro com problema agora | Colaborativo | Relatos dos usuários | Supabase (`30-dados/relatos-colaborativos.md`) | Não começado |
+| Lotação | Estimado | Horário de pico vs. fora de pico `[a confirmar critério]` | Calculado no app, rotulado "estimativa" | Não começado |
+
+## Como o script trata a base do GeoSampa
+- Converte as coordenadas de UTM (SIRGAS 2000 / 23S) para latitude/longitude.
+- Corrige: Vila Mariana duplicada na Linha 1; inclui Jardim Colonial (Linha 15) e as 8 estações da Linha 17, que a base ainda lista como projetadas.
+- Ordena as estações pelo caminho mais curto a partir de um terminal; a Linha 17 (em Y) tem ordem fixa.
+- Integração = estação de outra linha a menos de 450 m.
 
 ## O que não existe publicamente
 - Status de elevador em tempo real: o Metrô comunica falhas por nota à imprensa, não por feed de dados.

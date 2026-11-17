@@ -3,21 +3,22 @@
 > Última atualização: 2026-11-17, por claude.
 
 ## Foco da semana
-1. Criar o projeto Vite + React + TS em `40-produto/app/` e publicar na Vercel.
-2. Montar os dados fixos de todas as linhas e estações (`30-dados/`).
+1. Enzo revisar e aprovar os PRs do palácio e do protótipo.
+2. Publicar o protótipo na Vercel.
+3. Levantar os recursos de acessibilidade das estações (hoje aparecem como "Não verificado").
 
 ## Frentes
 | Frente | Sala | Estado | Próximo passo | Dono |
 |---|---|---|---|---|
 | Palácio da memória | `00-portaria/` | Montado (v0.1) | Grupo completar nomes e papéis em `00-portaria/agentes.md` | grupo |
-| Setup do app | `40-produto/app/` | Não começado | Criar projeto Vite, primeira tela, deploy | claude / enzo revisa |
-| Dados de linhas e estações | `30-dados/linhas.md` | Lista de linhas montada, com pontos a confirmar | Levantar estações e recursos de acessibilidade com fonte | claude |
-| Status real das linhas | `30-dados/fontes-de-dados.md` | Pesquisado, não implementado | Escolher a página oficial a ler e criar `/api/status` | claude |
-| Mapa + Como chegar | `40-produto/app/` | Não começado | Depois das telas 1 a 3 | claude |
-| Relatos colaborativos | `30-dados/relatos-colaborativos.md` | Desenhado, não implementado | Criar tabelas no Supabase | claude / enzo revisa |
+| Protótipo do app | `40-produto/app/` | 5 telas prontas, build passando | Revisão do Enzo; deploy na Vercel | claude / enzo revisa |
+| Estações e linhas | `30-dados/linhas.md` | 211 estações reais (GeoSampa) | Confirmar operadoras das linhas 7, 11, 12 e 13 | claude |
+| Recursos de acessibilidade | `30-dados/fontes-de-dados.md` | Não levantado | Achar fonte por estação (operadoras, OpenStreetMap) | claude |
+| Status real das linhas | `30-dados/fontes-de-dados.md` | Pesquisado | Escolher página oficial e criar `/api/status` | claude |
+| Relatos colaborativos | `30-dados/relatos-colaborativos.md` | Desenhado | Criar tabelas no Supabase | claude / enzo revisa |
 
 ## Bloqueios e "a confirmar"
 - [ ] Nomes e papéis do grupo em `00-portaria/agentes.md`.
 - [ ] Tela Premium fica ou sai? (`10-projeto/proposta.md`)
 - [ ] Operadora atual das linhas 7, 11, 12 e 13 (`30-dados/linhas.md`).
-- [ ] Vercel: o projeto atual aponta para a raiz do repo; trocar Root Directory para `40-produto/app` quando o app existir.
+- [ ] Vercel: trocar Root Directory para `40-produto/app` (preset Vite).
