@@ -1,3 +1,3 @@
-# App
+# AccessMetro SP: app
 
-O projeto Vite + React + TypeScript vai ser criado aqui. Ver `40-produto/SALA.md`.
+Código do site (Vite + React + TypeScript). Como rodar, arquivos e regras: `40-produto/SALA.md`.

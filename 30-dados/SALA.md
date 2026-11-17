@@ -9,6 +9,7 @@
 | `30-dados/fontes-de-dados.md` | Cada dado do site e de onde ele vem |
 | `30-dados/linhas.md` | Todas as linhas de SP com operadora e fonte |
 | `30-dados/relatos-colaborativos.md` | Regras e tabelas dos relatos estilo Waze |
+| `30-dados/scripts/gerar_estacoes.py` | Lê o GeoSampa e gera `40-produto/app/src/data/estacoes.json` |
 
 ## Regras desta sala
 - Todo dado tem fonte (link ou arquivo em `90-arquivo/fontes/`) ou `[a confirmar]`.
