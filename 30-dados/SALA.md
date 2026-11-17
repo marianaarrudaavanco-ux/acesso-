@@ -10,6 +10,9 @@
 | `30-dados/linhas.md` | Todas as linhas de SP com operadora e fonte |
 | `30-dados/relatos-colaborativos.md` | Regras e tabelas dos relatos estilo Waze |
 | `30-dados/scripts/gerar_estacoes.py` | Lê o GeoSampa e gera `40-produto/app/src/data/estacoes.json` |
+| `30-dados/scripts/gerar_tracados.py` | Lê o GeoSampa e gera `40-produto/app/src/data/tracados.json` |
+| `30-dados/scripts/conferir_estacoes.py` | Confere nome e ordem das estações, linha por linha |
+| `40-produto/app/src/data/vistorias.md` | Testes em campo (mora no app porque a Vercel só publica aquela pasta; D-007) |
 
 ## Regras desta sala
 - Todo dado tem fonte (link ou arquivo em `90-arquivo/fontes/`) ou `[a confirmar]`.

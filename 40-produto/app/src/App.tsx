@@ -17,8 +17,9 @@ export default function App() {
       <a className="pular" href="#conteudo">Pular para o conteúdo</a>
       <header className="topo">
         <div className="topo__barra">
-          <Link to="/" className="marca">
-            AccessMetro <span>SP</span>
+          <Link to="/" className="marca" aria-label="AccessMetro SP, início">
+            <span className="marca__simbolo" aria-hidden="true" />
+            AccessMetro<span className="marca__sp">SP</span>
           </Link>
           <nav aria-label="Principal">
             <ul className="menu">
@@ -28,19 +29,23 @@ export default function App() {
             </ul>
           </nav>
         </div>
-        <div className="piso-tatil" aria-hidden="true" />
       </header>
+      <div className="piso-tatil" aria-hidden="true" />
 
       <main id="conteudo" ref={principal} tabIndex={-1}>
         <Outlet />
       </main>
 
       <footer className="rodape">
-        <p>
-          Projeto da turma 2CDD01 do Senac Nações Unidas. Estações: GeoSampa (Prefeitura de São Paulo).
-          Mapa: © colaboradores do OpenStreetMap.
-        </p>
-        <p>Protótipo: confira sempre os avisos oficiais nas estações.</p>
+        <div className="rodape__dentro">
+          <p>
+            <strong>AccessMetro SP</strong> · projeto da turma 2ADM2 do Senac Nações Unidas.
+          </p>
+          <p>
+            Estações e linhas: GeoSampa (Prefeitura de São Paulo). Mapa: © OpenStreetMap, © CARTO.
+            Protótipo: confira sempre os avisos oficiais nas estações.
+          </p>
+        </div>
       </footer>
     </>
   )

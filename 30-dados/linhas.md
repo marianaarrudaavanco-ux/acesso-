@@ -1,29 +1,33 @@
 # Linhas de São Paulo
-> Todas entram no site (D-004). Operadora só sem `[a confirmar]` quando há fonte. Atualizado em 2026-11-17.
+> Todas entram no site (D-004). Atualizado em 2026-11-17.
 > No código: `40-produto/app/src/data/linhas.ts` (mudou aqui, mude lá).
 > GeoSampa = arquivos em `90-arquivo/fontes/2026-04-10_geosampa_estacoes/` (dados de abril de 2026).
+> Lista de estações conferida linha por linha (nome e ordem) com `30-dados/scripts/conferir_estacoes.py`: 14 de 14 batem.
 
 ## Metrô
-| Linha | Nome | Operadora | Estações | Observação | Fonte |
+| Linha | Nome | Operadora | Estações | Observação | Fonte da operadora |
 |---|---|---|---|---|---|
-| 1 | Azul | Metrô | 23 | | GeoSampa; https://transparencia.metrosp.com.br/node/5756/download |
-| 2 | Verde | Metrô | 14 | Expansão em obras (Vila Prudente → Penha → Dutra) | idem; https://transparencia.metrosp.com.br/sites/default/files/15.06.2026-Relatorio_Portal_Transparencia-GPM-Maio.pdf |
-| 3 | Vermelha | Metrô | 18 | | GeoSampa; https://transparencia.metrosp.com.br/node/5756/download |
-| 4 | Amarela | ViaQuatro | 11 | | GeoSampa |
-| 5 | Lilás | ViaMobilidade (grupo Motiva) | 17 | O GeoSampa ainda escreve "METRO" como empresa; vale a fonte de notícia | https://www.dgabc.com.br/Noticia/4351798/linhas-1-azul-e-5-lilas-do-metro-de-sp-amanhecem-com-falhas-na-manha-desta-sexta-feira |
-| 15 | Prata | Metrô | 11 | Monotrilho. Jardim Colonial veio da camada de projetadas do GeoSampa | GeoSampa; https://transparencia.metrosp.com.br/node/5756/download |
-| 17 | Ouro | Metrô | 8 | Monotrilho em Y. Operação transitória das 6h às 22h, de segunda a sábado (desde 30/09/2026) | https://diariodotransporte.com.br/2026/06/30/linha-17-ouro-tem-horario-de-operacao-ampliado-em-duas-horas-estacao-washington-luis-e-inaugurada-nesta-terca-30-com-12-anos-de-atraso/ ; https://diariodotransporte.com.br/2026/09/29/monotrilho-da-linha-17-ouro-passa-a-funcionar-das-6h-as-22h-a-partir-desta-quarta-feira-30/amp/ |
+| 1 | Azul | Metrô | 23 | | https://en.wikipedia.org/wiki/Line_1_(São_Paulo_Metro) |
+| 2 | Verde | Metrô | 14 | Expansão em obras (Vila Prudente → Penha → Dutra) | https://transparencia.metrosp.com.br/node/5756/download |
+| 3 | Vermelha | Metrô | 18 | | idem |
+| 4 | Amarela | Motiva Linha 4 (antiga ViaQuatro) | 11 | Chácara do Jockey e Taboão da Serra em obras, previsão 2028 (https://www.gazetasp.com.br/cotidiano/metro-saiba-como-estao-as-obras-e-quando-sera-inaugurada-a-estacao/1146962) | https://en.wikipedia.org/wiki/Line_4_(São_Paulo_Metro) |
+| 5 | Lilás | Motiva Linhas 5 e 17 (antiga ViaMobilidade) | 17 | | https://en.wikipedia.org/wiki/Line_5_(São_Paulo_Metro) |
+| 15 | Prata | Metrô | 11 | Monotrilho. Jardim Colonial veio da camada de projetadas do GeoSampa | https://transparencia.metrosp.com.br/node/5756/download |
+| 17 | Ouro | Motiva Linhas 5 e 17 (antiga ViaMobilidade) | 8 | Monotrilho em Y. Operação transitória das 6h às 22h, de segunda a sábado (https://diariodotransporte.com.br/2026/09/29/monotrilho-da-linha-17-ouro-passa-a-funcionar-das-6h-as-22h-a-partir-desta-quarta-feira-30/amp/) | https://en.wikipedia.org/wiki/Line_5_(São_Paulo_Metro) (ver E-001) |
 
 ## Trens metropolitanos
-| Linha | Nome | Operadora | Estações | Observação | Fonte |
+| Linha | Nome | Operadora | Estações | Observação | Fonte da operadora |
 |---|---|---|---|---|---|
-| 7 | Rubi | `[a confirmar]` | 17 | GeoSampa (abril/2026) diz CPTM, mas a linha foi concedida; situação atual não confirmada | GeoSampa |
-| 8 | Diamante | ViaMobilidade | 23 | | GeoSampa |
-| 9 | Esmeralda | ViaMobilidade | 21 | | GeoSampa |
-| 10 | Turquesa | CPTM | 15 | | GeoSampa |
-| 11 | Coral | `[a confirmar]` | 17 | GeoSampa (abril/2026) diz CPTM; em julho/2026 passou para a Trivia Trens e depois houve determinação de retorno à CPTM | GeoSampa; https://exame.com/arquivo/metro-de-sao-paulo/ |
-| 12 | Safira | `[a confirmar]` | 13 | Mesma situação da linha 11 | idem |
-| 13 | Jade | `[a confirmar]` | 3 | Mesma situação da linha 11 | idem |
+| 7 | Rubi | TIC Trens | 17 | | https://transparencia.metrosp.com.br/node/5756/download ; https://en.wikipedia.org/wiki/Line_7_(CPTM) |
+| 8 | Diamante | ViaMobilidade (Motiva) | 23 | | https://en.wikipedia.org/wiki/Line_8_(CPTM) |
+| 9 | Esmeralda | ViaMobilidade (Motiva) | 21 | | https://en.wikipedia.org/wiki/Line_9_(CPTM) |
+| 10 | Turquesa | CPTM | 15 | | GeoSampa; https://en.wikipedia.org/wiki/Line_10_(CPTM) |
+| 11 | Coral | Trivia Trens | 17 | Em transição: supervisão da CPTM até 25/11/2026, operação integral prevista para 26/11. Estação Penha em obras | https://www.correiodamanha.com.br/nacional/sao-paulo/estado-de-sao-paulo/2026/10/330185-trivia-trens-reassume-linhas-sob-supervisao-da-cptm.html |
+| 12 | Safira | Trivia Trens | 13 | Mesma transição da linha 11 | idem |
+| 13 | Jade | Trivia Trens | 3 | Trivia reassumiu integralmente em 26/10/2026. Barra Funda, Luz e Brás só pelo Expresso Aeroporto | idem; https://diariodotransporte.com.br/2026/07/21/concessao-da-trivia-trens-preve-ampliacao-das-linhas-11-12-e-13-novas-estacoes-e-r-143-bilhoes-em-investimentos/ |
+
+## Nomes oficiais
+O GeoSampa escreve vários nomes sem complemento ou patrocínio (ex.: "Saúde" em vez de "Saúde-Ultrafarma"). O script `30-dados/scripts/gerar_estacoes.py` troca pelos nomes oficiais (tabela `NOMES`).
 
 ## Cores
 - Metrô (1, 2, 3, 4, 5, 15): oficiais, do pacote https://github.com/viniciusoike/metrosp.

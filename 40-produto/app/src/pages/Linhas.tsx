@@ -5,23 +5,31 @@ import { LINHAS, type Linha } from '../data/linhas'
 import { ESTACOES, estacoesDaLinha, semAcento } from '../data/estacoes'
 
 function terminais(linha: Linha): string {
-  if (linha.numero === 17) return 'Morumbi ↔ Congonhas / Washington Luís'
+  if (linha.numero === 17) return 'Morumbi · Congonhas · Washington Luís'
   const lista = estacoesDaLinha(linha.numero)
-  return `${lista[0].nome} ↔ ${lista[lista.length - 1].nome}`
+  return `${lista[0].nome} · ${lista[lista.length - 1].nome}`
 }
 
-function CartaoLinha({ linha }: { linha: Linha }) {
+function ListaLinhas({ titulo, tipo }: { titulo: string; tipo: Linha['tipo'] }) {
+  const id = useId()
   return (
-    <li>
-      <Link to={`/linha/${linha.numero}`} className="cartao-linha" style={{ '--cor-linha': linha.cor } as React.CSSProperties}>
-        <SeloLinha numero={linha.numero} />
-        <span className="cartao-linha__texto">
-          <strong>{linha.nome}</strong>
-          <span>{terminais(linha)}</span>
-        </span>
-        <span className="cartao-linha__qtd">{estacoesDaLinha(linha.numero).length} estações</span>
-      </Link>
-    </li>
+    <section aria-labelledby={id} className="grupo-linhas">
+      <h2 id={id}>{titulo}</h2>
+      <ul className="lista-linhas">
+        {LINHAS.filter((l) => l.tipo === tipo).map((l) => (
+          <li key={l.numero}>
+            <Link to={`/linha/${l.numero}`} className="linha-item">
+              <SeloLinha numero={l.numero} />
+              <span className="linha-item__texto">
+                <span className="linha-item__nome">{l.nome}</span>
+                <span className="linha-item__terminais">{terminais(l)}</span>
+              </span>
+              <span className="linha-item__qtd">{estacoesDaLinha(l.numero).length}<span className="sr-only"> estações</span></span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
@@ -45,12 +53,8 @@ export default function Linhas() {
 
   return (
     <>
-      <section className="abertura">
-        <h1>Vai dar pra usar a estação?</h1>
-        <p>
-          Antes de sair de casa, veja como está a estação: elevador, banheiro, rampa e piso tátil, em todas as
-          linhas de metrô e trem de São Paulo.
-        </p>
+      <section className="faixa faixa--escura busca-faixa">
+        <h1 className="busca-faixa__titulo">Elevador, banheiro, rampa e piso tátil em cada estação de metrô e trem de São Paulo.</h1>
 
         <form role="search" className="busca" onSubmit={(ev) => ev.preventDefault()}>
           <label htmlFor={idBusca}>Buscar estação</label>
@@ -65,11 +69,13 @@ export default function Linhas() {
         </form>
 
         {/* aria-live: o leitor de tela avisa quantos resultados apareceram */}
-        <div aria-live="polite">
+        <div aria-live="polite" className="busca__saida">
           {busca.trim().length >= 2 && (
             <>
               <p className="busca__contagem">
-                {resultados.length === 0 ? 'Nenhuma estação encontrada.' : `${resultados.length} estação(ões) encontrada(s).`}
+                {resultados.length === 0
+                  ? 'Nenhuma estação com esse nome.'
+                  : resultados.length === 1 ? '1 estação' : `${resultados.length} estações`}
               </p>
               <ul className="resultados">
                 {resultados.map((r) => (
@@ -77,7 +83,7 @@ export default function Linhas() {
                     <Link to={`/estacao/${r.id}`}>
                       <span>{r.nome}</span>
                       <span className="selos">
-                        {r.linhas.map((n) => <SeloLinha key={n} numero={n} />)}
+                        {r.linhas.map((n) => <SeloLinha key={n} numero={n} tamanho="pequeno" />)}
                       </span>
                     </Link>
                   </li>
@@ -88,27 +94,10 @@ export default function Linhas() {
         </div>
       </section>
 
-      <section aria-labelledby="t-metro">
-        <h2 id="t-metro">Metrô</h2>
-        <ul className="lista-linhas">
-          {LINHAS.filter((l) => l.tipo === 'metro').map((l) => <CartaoLinha key={l.numero} linha={l} />)}
-        </ul>
-      </section>
-
-      <section aria-labelledby="t-trem">
-        <h2 id="t-trem">Trens metropolitanos</h2>
-        <ul className="lista-linhas">
-          {LINHAS.filter((l) => l.tipo === 'trem').map((l) => <CartaoLinha key={l.numero} linha={l} />)}
-        </ul>
-      </section>
-
-      <aside className="aviso-prototipo">
-        <h2>O que ainda vem</h2>
-        <p>
-          Este é um protótipo. Ainda não mostramos a situação das linhas em tempo real nem os avisos da comunidade
-          sobre elevadores parados. Os dois chegam nas próximas versões.
-        </p>
-      </aside>
+      <div className="colunas-linhas">
+        <ListaLinhas titulo="Metrô" tipo="metro" />
+        <ListaLinhas titulo="Trens metropolitanos" tipo="trem" />
+      </div>
     </>
   )
 }

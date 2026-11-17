@@ -2,12 +2,11 @@ import { corDoTexto, linhaPorNumero } from '../data/linhas'
 
 type Props = {
   numero: number
-  /** "grande" para o título da página da linha */
-  tamanho?: 'normal' | 'grande'
+  tamanho?: 'pequeno' | 'normal' | 'grande'
 }
 
 /**
- * O quadradinho colorido com o número da linha, como nas placas das estações.
+ * O quadrado com o número da linha, como nas placas das estações.
  * O leitor de tela lê "Linha 4-Amarela" em vez de só "4".
  */
 export default function SeloLinha({ numero, tamanho = 'normal' }: Props) {
