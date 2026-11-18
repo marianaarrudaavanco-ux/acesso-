@@ -18,10 +18,11 @@ export default function LinhaPage() {
   return (
     <article style={{ '--cor-linha': linha.cor } as React.CSSProperties}>
       <header className="faixa faixa-linha" style={{ background: linha.cor, color: corDoTexto(linha.cor) }}>
-        <p className="voltar"><Link to="/">Todas as linhas</Link></p>
+        <p className="voltar"><Link to="/linhas">Todas as linhas</Link></p>
         <div className="faixa-linha__titulo">
           <span className="faixa-linha__numero" aria-hidden="true">{linha.numero}</span>
-          <h1>Linha {linha.numero}-{linha.nome}</h1>
+          {/* \u2011 = hífen que não quebra: "Linha 3-" e "Vermelha" ficam juntos. */}
+          <h1>Linha {linha.numero}{"\u2011"}{linha.nome}</h1>
         </div>
       </header>
 
@@ -40,8 +41,9 @@ export default function LinhaPage() {
 
       <h2 className="sr-only">Estações, na ordem da linha</h2>
       <ol className="diagrama">
-        {estacoes.map((e) => (
-          <li key={e.id}>
+        {estacoes.map((e, i) => (
+          // --d: quando a faixa chega nesta estação (proporção da posição na lista).
+          <li key={e.id} style={{ '--d': `${Math.round((i / Math.max(1, estacoes.length - 1)) * 1100)}ms` } as React.CSSProperties}>
             <Link to={`/estacao/${e.id}`} className="diagrama__estacao">
               <span className="diagrama__ponto" aria-hidden="true" />
               <span className="diagrama__nome">{e.nome}</span>

@@ -9,7 +9,7 @@ Quem depende de elevador, rampa ou banheiro adaptado é pego de surpresa no tran
 - **Recursos de acessibilidade de cada estação**: elevador, banheiro acessível, rampa/acesso PCD, piso tátil, avisos sonoros/Braille.
 - **Relatos colaborativos estilo Waze**: o usuário avisa "elevador parado" e os outros confirmam ou dizem que já resolveu.
 - **Lotação estimada** pelo horário, sempre rotulada como estimativa.
-- **Mapa** com todas as estações e **"Como chegar (a pé)"**, que abre o app de mapas do celular.
+- **Mapa como tela inicial**, com ruas e bairros, "onde estou" e **rota a pé ou sem escadas** desenhada até a estação (D-008).
 
 Cobertura: todas as linhas de metrô e trem de São Paulo (D-004). Lista em `30-dados/linhas.md`.
 
@@ -19,9 +19,9 @@ Pessoas com deficiência física, visual ou com mobilidade reduzida, e quem as a
 ## Telas
 | # | Tela | O que mostra |
 |---|---|---|
-| 1 | Linhas (início) | Todas as linhas com status, lotação estimada e alertas ativos |
-| 2 | Detalhe da linha | Estações da linha com os recursos e relatos de cada uma |
-| 3 | Estação | Recursos, relatos ativos, botão "Reportar problema" e "Como chegar" |
-| 4 | Mapa | Estações no mapa, cor por situação, filtro por linha |
-| 5 | Guia de acessibilidade | Legenda dos ícones e termos |
+| 1 | Mapa (início) | Ruas e bairros com as linhas por cima; busca, onde estou, estações perto, rota a pé e sem escadas (D-008) |
+| 2 | Linhas | As 14 linhas, com busca de estação |
+| 3 | Detalhe da linha | Estações da linha, em diagrama, com integrações |
+| 4 | Estação | Recursos testados pelo grupo, como chegar, integrações |
+| 5 | Guia de acessibilidade | Como usar cada recurso e pedir ajuda, com fontes |
 | 6 | Premium | `[a confirmar]`: estava na proposta original (planos simulados "sem anúncios"); o grupo decide se mantém |

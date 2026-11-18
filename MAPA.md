@@ -38,7 +38,8 @@
 |---|---|
 | `40-produto/SALA.md` | Porta da ala: stack, como rodar, deploy |
 | `40-produto/app/` | Código do site (Vite + React + TypeScript) |
-| `40-produto/app/src/pages/` | Uma tela por arquivo (Linhas, Linha, Estação, Mapa, Guia) |
+| `40-produto/app/src/pages/` | Uma tela por arquivo (Início com o mapa, Linhas, Linha, Estação, Guia) |
+| `40-produto/app/src/mapa/` | Mapa (MapLibre), distâncias e rota a pé / sem escadas |
 | `40-produto/app/src/data/` | Linhas, estações e traçados (JSON gerados), recursos e textos do guia |
 | `40-produto/app/src/data/vistorias.md` | Tabela de testes em campo que o grupo preenche |
 
