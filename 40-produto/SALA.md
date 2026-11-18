@@ -42,6 +42,14 @@ npm run dev      # abre em http://localhost:5173
 npm run build    # tem que passar antes de qualquer commit
 ```
 
+## Testar no celular sem publicar
+O GPS só funciona em `https`. Com o site rodando no PC (`npm run dev`), em outro terminal:
+```
+npx cloudflared tunnel --url http://localhost:5173
+```
+Ele mostra um link `https://….trycloudflare.com`: abra no celular. O link some quando você fecha o terminal.
+O Vite só aceita esse endereço porque ele está liberado em `40-produto/app/vite.config.ts`.
+
 ## Deploy
 Quem importa é a dona do repositório (a Vercel só faz deploy automático de repositório da própria conta):
 1. vercel.com → Continue with GitHub (conta `marianaarrudaavanco-ux`).
