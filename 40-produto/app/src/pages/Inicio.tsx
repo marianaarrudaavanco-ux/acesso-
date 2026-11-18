@@ -6,10 +6,10 @@
  * Tudo que dá para fazer no mapa também dá pelo painel e pela busca (teclado e leitor de tela).
  */
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import SeloLinha from '../components/SeloLinha'
 import { LINHAS, linhaPorNumero } from '../data/linhas'
-import { ESTACOES, linkComoChegar, semAcento, type Estacao } from '../data/estacoes'
+import { ESTACOES, estacaoPorId, linkComoChegar, semAcento, type Estacao } from '../data/estacoes'
 import { RECURSOS } from '../data/recursos'
 import { TEXTO_RESULTADO, ultimaVistoria } from '../data/vistorias'
 import MapaSP from '../mapa/MapaSP'
@@ -31,6 +31,9 @@ export default function Inicio() {
   const zoom = useRef<{ zoomMais: () => void; zoomMenos: () => void } | null>(null)
   const pedidoRota = useRef<AbortController | null>(null)
   const tituloPainel = useRef<HTMLHeadingElement>(null)
+  // A estação escolhida fica no endereço (/?estacao=1-tucuruvi). Assim o botão "Ver no mapa"
+  // da página da estação abre o mapa já nela, e dá para mandar o link para alguém.
+  const [parametros, setParametros] = useSearchParams()
 
   const voar = (alvo: Posicao, z?: number) => setFoco((f) => ({ alvo, zoom: z, n: (f?.n ?? 0) + 1 }))
 
@@ -38,6 +41,7 @@ export default function Inicio() {
     pedidoRota.current?.abort()
     setRota({ situacao: 'parado' })
     setSelecionada(e)
+    setParametros({ estacao: e.id }, { replace: true })
     setAberto(true)
     voar(e, 15.5)
     // Leva o foco do teclado para o painel, que é onde a resposta apareceu.
@@ -48,7 +52,16 @@ export default function Inicio() {
     pedidoRota.current?.abort()
     setSelecionada(null)
     setRota({ situacao: 'parado' })
+    setParametros({}, { replace: true })
   }
+
+  // Chegou com ?estacao=... (veio do botão "Ver no mapa"): já abre nessa estação.
+  useEffect(() => {
+    const e = estacaoPorId(parametros.get('estacao') ?? '')
+    if (e) selecionar(e)
+    // Só na chegada à tela: depois, quem muda o endereço é o próprio selecionar/fechar.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function ondeEstou(depois?: (p: Posicao) => void) {
     if (!('geolocation' in navigator)) { setLocal('erro'); return }

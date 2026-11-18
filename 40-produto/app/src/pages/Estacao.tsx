@@ -27,10 +27,15 @@ export default function EstacaoPage() {
         </p>
       </header>
 
-      <a className="botao" href={linkComoChegar(estacao)} target="_blank" rel="noreferrer">
-        Como chegar a pé
-        <span className="sr-only"> (abre o Google Maps)</span>
-      </a>
+      {/* Principal: o nosso mapa, já nesta estação, com rota a pé e sem escadas.
+          Secundário: o Google Maps, para quem prefere. */}
+      <div className="acoes-estacao">
+        <Link className="botao" to={`/?estacao=${estacao.id}`}>Ver no mapa e traçar rota</Link>
+        <a className="botao botao--secundario" href={linkComoChegar(estacao)} target="_blank" rel="noreferrer">
+          Abrir no Google Maps
+          <span className="sr-only"> (abre em outra aba)</span>
+        </a>
+      </div>
 
       {temPosto && (
         <p className="aviso">

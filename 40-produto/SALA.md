@@ -14,7 +14,7 @@
 | Arquivo | O que é |
 |---|---|
 | `40-produto/app/src/main.tsx` | Rotas: `/` (mapa), `/linhas`, `/linha/:numero`, `/estacao/:id`, `/guia` |
-| `40-produto/app/src/pages/Inicio.tsx` | Tela inicial: mapa, busca, onde estou, painel com estação e rota |
+| `40-produto/app/src/pages/Inicio.tsx` | Tela inicial: mapa, busca, onde estou, painel com estação e rota. `/?estacao=<id>` abre já na estação (botão "Ver no mapa" da página da estação) |
 | `40-produto/app/src/mapa/MapaSP.tsx` | O mapa e as nossas camadas (linhas, estações, você, rota) |
 | `40-produto/app/src/mapa/rota.ts` | Pede a rota ao Valhalla e decodifica o caminho |
 | `40-produto/app/src/mapa/geo.ts` | Distância e estações mais perto |

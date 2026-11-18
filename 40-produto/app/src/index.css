@@ -219,6 +219,10 @@ main { flex: 1; width: 100%; max-width: var(--largura); margin: 0 auto; padding:
   text-decoration: none; border: 2px solid var(--tinta); border-radius: 999px;
 }
 .botao:hover { background: var(--tinta); color: var(--piso); }
+.acoes-estacao { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }
+.acoes-estacao .botao { margin-top: 0; }
+.botao--secundario { background: var(--branco); }
+.botao--secundario:hover { background: var(--tinta); color: var(--branco); }
 
 .bloco { margin-top: 2.5rem; }
 .bloco > h2 { padding-bottom: .5rem; border-bottom: 3px solid var(--tinta); }
