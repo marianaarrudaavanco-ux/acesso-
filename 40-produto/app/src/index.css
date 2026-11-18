@@ -70,7 +70,7 @@ main:focus { outline: none; box-shadow: none; }
 .topo { background: var(--tinta); color: var(--branco); }
 .topo__barra {
   max-width: var(--largura); margin: 0 auto; padding: 0 var(--margem);
-  display: flex; flex-wrap: wrap; align-items: stretch; justify-content: space-between; column-gap: 1.5rem;
+  display: flex; flex-wrap: nowrap; align-items: stretch; justify-content: space-between; column-gap: 1rem;
 }
 .marca {
   display: flex; align-items: center; gap: .6rem; min-height: 60px;
@@ -315,7 +315,7 @@ main { flex: 1; width: 100%; max-width: var(--largura); margin: 0 auto; padding:
 /* ---------- Tela do mapa ---------- */
 /* O mapa preenche o que sobra da tela abaixo do topo (o topo muda de altura no celular). */
 main.main--mapa { max-width: none; padding: 0; position: relative; display: flex; }
-.tela-mapa { position: relative; flex: 1; min-height: 460px; overflow: hidden; }
+.tela-mapa { position: relative; flex: 1; min-height: 0; overflow: hidden; }
 /* Seletor mais forte que o .maplibregl-map do MapLibre, que põe position: relative e zera a altura. */
 .tela-mapa > .mapa-sp { position: absolute; inset: 0; background: #e9ebe4; }
 .mapa-sp .maplibregl-ctrl-attrib { font-family: inherit; font-size: .72rem; }
@@ -441,6 +441,46 @@ main.main--mapa { max-width: none; padding: 0; position: relative; display: flex
 .paleta-previa__amostra--sinal { background: linear-gradient(90deg, #24262b 50%, #ff6b3d 50%); }
 
 .busca-faixa__sub { margin: -.75rem 0 1.25rem; }
+
+/* ---------- Responsividade ----------
+ * Medido em 320×568, 360×740, 390×844, 430×932, celular deitado (568×320, 844×390),
+ * tablet (768×1024, 1024×768) e computador (1366×768, 1920×1080). */
+
+/* Topo numa linha só no celular: menos padding, sem o selo SP e, nos de 320 px, só o símbolo. */
+@media (max-width: 30rem) {
+  .topo__barra { padding: 0 .75rem; column-gap: .5rem; }
+  .marca { min-height: 54px; font-size: 1.05rem; }
+  .marca__sp { display: none; }
+  .menu a { padding: 0 .6rem; }
+  .menu a.active::after { left: .6rem; right: .6rem; }
+}
+@media (max-width: 22.5rem) {
+  .marca__texto { display: none; }
+}
+
+@media (max-width: 51.99rem) {
+  /* Botões do mapa em fila logo abaixo da busca, longe do painel que sobe de baixo. */
+  .controles-mapa { top: calc(.9rem + 3.4rem + .6rem); grid-auto-flow: column; }
+  .botao-vidro { width: 48px; height: 48px; }
+  /* No tablet o painel não estica: linhas de texto compridas cansam. */
+  .painel { max-width: 36rem; margin-inline: auto; }
+  .painel h2 { font-size: 1.2rem; }
+}
+
+/* Tela baixa: o painel ocupa menos, para sobrar mapa. */
+@media (max-height: 760px) {
+  .painel { max-height: 46%; }
+}
+
+/* Celular deitado: painel na lateral esquerda (como no computador) e busca à direita dele. */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 51.99rem) {
+  .painel { left: .6rem; right: auto; top: .6rem; bottom: .6rem; width: min(20rem, 46%); max-height: none; margin: 0; }
+  .painel:not(.painel--aberto) { bottom: auto; max-height: 44px; }
+  .busca-flutuante { left: calc(min(20rem, 46%) + 1.2rem); right: 4.5rem; top: .6rem; }
+  .busca-flutuante__campo, .busca-flutuante__campo input { min-height: 2.9rem; height: 2.9rem; }
+  .controles-mapa { top: .6rem; right: .6rem; grid-auto-flow: row; }
+  .painel h2 { font-size: 1.1rem; }
+}
 
 /* Quem pediu menos movimento vê tudo pronto. O *::before é necessário: * sozinho não pega
  * pseudo-elementos, e a faixa do diagrama é um ::before. */
