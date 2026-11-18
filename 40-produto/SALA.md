@@ -47,7 +47,12 @@ Quem importa é a dona do repositório (a Vercel só faz deploy automático de r
 1. vercel.com → Continue with GitHub (conta `marianaarrudaavanco-ux`).
 2. vercel.com/new → Import no `acesso-` (se não aparecer: Adjust GitHub App Permissions).
 3. Root Directory: Edit → `40-produto/app`. Framework Preset: Vite.
-4. Deploy. Depois, Settings → Members para convidar o resto do grupo.
+4. Deploy.
+
+No plano grátis (Hobby) não dá para convidar o grupo para o projeto: isso é só no Pro (E-002).
+Não atrapalha: como o repositório é público, commits de qualquer pessoa do grupo também publicam
+(https://vercel.com/docs/deployments/troubleshoot-project-collaboration). Para ver erros de build,
+quem tem a conta (Mariana) olha o painel da Vercel ou manda o print.
 
 ## Regras desta sala
 - Visual (D-006 e D-009): conteúdo no estilo de sinalização (fios entre itens, ícones SVG, sem emoji nem cartão); controles arredondados; vidro só sobre o mapa.
