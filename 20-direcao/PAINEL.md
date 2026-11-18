@@ -6,7 +6,7 @@
 1. Enzo revisar os PRs (repaginada #3 e mapa).
 2. Grupo escolher a paleta (site com `?paletas`) e testar o mapa no celular de verdade: GPS, rota e fundo.
 3. Grupo fazer os primeiros testes em campo (`40-produto/app/src/data/vistorias.md`).
-4. Mariana importar o repositório na Vercel (passo a passo em `40-produto/SALA.md`).
+4. Mariana importar o repositório na Vercel (passo a passo em `40-produto/SALA.md`). O Enzo tentou pelo CLI e preferiu deixar com ela.
 
 ## Frentes
 | Frente | Sala | Estado | Próximo passo | Dono |
