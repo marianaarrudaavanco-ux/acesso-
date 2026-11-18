@@ -22,7 +22,7 @@ export default function App() {
         <div className="topo__barra">
           <Link to="/" className="marca" aria-label="AccessMetro SP, início">
             <span className="marca__simbolo" aria-hidden="true" />
-            AccessMetro<span className="marca__sp">SP</span>
+            <span className="marca__texto">AccessMetro</span><span className="marca__sp">SP</span>
           </Link>
           <nav aria-label="Principal">
             <ul className="menu">
