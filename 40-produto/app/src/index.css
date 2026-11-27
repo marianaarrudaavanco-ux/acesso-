@@ -608,3 +608,44 @@ html { -webkit-tap-highlight-color: transparent; }
   .busca-flutuante { left: calc(min(20rem, 46%) + 1.2rem); right: 4.5rem; top: .6rem; }
   .controles-mapa { top: .6rem; right: .6rem; }
 }
+
+/* ---------- Avisos de passageiros (Relatos.tsx) ---------- */
+.relatos__vazio { font-weight: 700; color: var(--ok); }
+.relatos__lista { display: grid; gap: .75rem; margin-bottom: 1rem; }
+.relato { padding: .9rem 1rem; background: var(--branco); border-left: 6px solid var(--ruim); }
+.relato p { margin: 0 0 .4rem; }
+.relato__titulo { display: flex; align-items: center; gap: .6rem; font-size: 1.1rem; }
+.relato__alerta {
+  display: inline-grid; place-items: center; flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%;
+  background: var(--ruim); color: var(--branco); font-weight: 700; font-size: .95rem;
+}
+.relato__comentario { font-size: 1rem; }
+.relato__quando { color: var(--suave); font-size: .88rem; }
+.relato__respondido { color: var(--suave); font-weight: 700; font-size: .9rem; }
+.relato__acoes { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
+.relatos__ok { color: var(--ok); font-weight: 700; }
+.relatos__novo { margin-top: .5rem; }
+
+.form-relato { padding: 1rem; background: var(--branco); border: 2px solid var(--tinta); margin-top: .5rem; }
+.form-relato fieldset { border: 0; padding: 0; margin: 0 0 1rem; }
+.form-relato legend { font-weight: 700; margin-bottom: .6rem; padding: 0; }
+.form-relato__tipos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); gap: .45rem; }
+.opcao-relato {
+  position: relative; display: flex; align-items: center; min-height: var(--toque); padding: .3rem .9rem;
+  border: 2px solid var(--fio); border-radius: 12px; font-weight: 700; cursor: pointer;
+}
+.opcao-relato input { position: absolute; opacity: 0; pointer-events: none; }
+.opcao-relato:has(input:checked) { border-color: var(--tinta); background: var(--piso); }
+.opcao-relato:has(input:focus-visible) { outline: 3px solid var(--tinta); outline-offset: 2px; box-shadow: 0 0 0 6px var(--piso); }
+.form-relato__rotulo { display: block; font-weight: 700; margin-bottom: .35rem; }
+.form-relato textarea {
+  width: 100%; font: inherit; font-size: 1rem; padding: .6rem .75rem; border: 2px solid var(--tinta); border-radius: 12px; resize: vertical;
+}
+.form-relato__contagem { text-align: right; font-size: .8rem; color: var(--suave); margin: .2rem 0 .6rem; }
+
+/* Resumo no painel do mapa */
+.avisos-agora {
+  display: flex; align-items: flex-start; gap: .6rem; margin: .75rem 0; padding: .6rem .75rem;
+  border-radius: 14px; background: rgba(179, 38, 30, .1); border: 2px solid var(--ruim); text-decoration: none; color: var(--tinta);
+}
+.avisos-agora__ver { text-decoration: underline; font-weight: 700; }

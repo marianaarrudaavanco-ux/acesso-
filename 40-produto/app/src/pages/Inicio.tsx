@@ -16,6 +16,7 @@ import MapaSP from '../mapa/MapaSP'
 import { distanciaM, maisProximas, textoDistancia, type Posicao } from '../mapa/geo'
 import { calcularRota, textoTempo, type Rota, type TipoRota } from '../mapa/rota'
 import { useBrilhoVidro } from '../components/useBrilhoVidro'
+import { haQuanto, idsDoMesmoLugar, RELATOS_LIGADOS, textoTipo, useRelatos } from '../data/relatos'
 
 // Altura do painel no celular: só a alça, metade da tela ou quase tudo (para ler a rota).
 type Altura = 'fechado' | 'meio' | 'cheio'
@@ -304,6 +305,8 @@ function PainelEstacao({ estacao, voce, rota, local, tituloRef, aoFechar, aoPedi
         </button>
       </div>
 
+      {RELATOS_LIGADOS && <AvisosAgora estacao={estacao} />}
+
       <p className="painel-estacao__testes">
         {testes.length === 0
           ? 'Acessibilidade ainda não testada pelo grupo.'
@@ -407,5 +410,22 @@ function BotaoVidro({ rotulo, aoClicar, ativo, children }: { rotulo: string; aoC
     <button ref={vidro} type="button" className="vidro vidro--claro botao-vidro" aria-label={rotulo} aria-pressed={ativo} onClick={aoClicar}>
       {children}
     </button>
+  )
+}
+
+/** Resumo dos avisos de passageiros no painel do mapa; os detalhes ficam na página da estação. */
+function AvisosAgora({ estacao }: { estacao: Estacao }) {
+  const { lista } = useRelatos(idsDoMesmoLugar(estacao))
+  if (lista.length === 0) return null
+  const [primeiro, ...resto] = lista
+  return (
+    <Link to={`/estacao/${estacao.id}`} className="avisos-agora">
+      <span className="relato__alerta" aria-hidden="true">!</span>
+      <span>
+        <strong>{textoTipo(primeiro.tipo)}</strong>, avisado {haQuanto(primeiro.criado_em)}
+        {resto.length > 0 && ` e mais ${resto.length} ${resto.length === 1 ? 'aviso' : 'avisos'}`}.{' '}
+        <span className="avisos-agora__ver">Ver avisos</span>
+      </span>
+    </Link>
   )
 }

@@ -6,6 +6,7 @@ import { estacaoNaLinha, estacaoPorId, linkComoChegar } from '../data/estacoes'
 import { POSTOS_PCD, RECURSOS } from '../data/recursos'
 import { dataCurta, TEXTO_RESULTADO, ultimaVistoria } from '../data/vistorias'
 import NaoEncontrado from './NaoEncontrado'
+import Relatos from '../components/Relatos'
 
 export default function EstacaoPage() {
   const { id = '' } = useParams()
@@ -42,6 +43,9 @@ export default function EstacaoPage() {
           Esta estação tem Posto de Atendimento à Pessoa com Deficiência, com conserto de cadeira de rodas e bengala.
         </p>
       )}
+
+      {/* Primeiro o que está acontecendo agora; depois os testes do grupo. */}
+      <Relatos estacao={estacao} />
 
       <section aria-labelledby="t-recursos" className="bloco">
         <h2 id="t-recursos">Acessibilidade</h2>
@@ -82,13 +86,6 @@ export default function EstacaoPage() {
         <p className="nota"><Link to="/guia">Como usar cada recurso</Link></p>
       </section>
 
-      <section aria-labelledby="t-relatos" className="bloco">
-        <h2 id="t-relatos">Avisos de quem passou por aqui</h2>
-        <p className="nota">
-          Na próxima versão: quem estiver na estação vai poder avisar que o elevador parou, e os outros confirmam se
-          ainda está assim.
-        </p>
-      </section>
 
       {estacao.integracoes.length > 0 && (
         <section aria-labelledby="t-integracoes" className="bloco">
