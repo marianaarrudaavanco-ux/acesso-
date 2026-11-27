@@ -8,7 +8,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import SeloLinha from '../components/SeloLinha'
-import { LINHAS, linhaPorNumero } from '../data/linhas'
+import { corDoTexto, LINHAS, linhaPorNumero } from '../data/linhas'
 import { ESTACOES, estacaoPorId, linkComoChegar, semAcento, type Estacao } from '../data/estacoes'
 import { RECURSOS } from '../data/recursos'
 import { TEXTO_RESULTADO, ultimaVistoria } from '../data/vistorias'
@@ -17,6 +17,8 @@ import { distanciaM, maisProximas, textoDistancia, type Posicao } from '../mapa/
 import { calcularRota, textoTempo, type Rota, type TipoRota } from '../mapa/rota'
 import { useBrilhoVidro } from '../components/useBrilhoVidro'
 
+// Altura do painel no celular: só a alça, metade da tela ou quase tudo (para ler a rota).
+type Altura = 'fechado' | 'meio' | 'cheio'
 type EstadoLocal = 'parado' | 'buscando' | 'ok' | 'negado' | 'erro'
 type EstadoRota = { situacao: 'parado' } | { situacao: 'calculando'; tipo: TipoRota } | { situacao: 'ok'; rota: Rota } | { situacao: 'erro'; tipo: TipoRota }
 
@@ -27,7 +29,11 @@ export default function Inicio() {
   const [local, setLocal] = useState<EstadoLocal>('parado')
   const [rota, setRota] = useState<EstadoRota>({ situacao: 'parado' })
   const [foco, setFoco] = useState<{ alvo: Posicao; zoom?: number; n: number } | null>(null)
-  const [aberto, setAberto] = useState(true)
+  const [altura, setAltura] = useState<Altura>('meio')
+  const [arrastando, setArrastando] = useState(false)
+  const painel = useRef<HTMLElement>(null)
+  const arrasto = useRef<{ y: number; h: number; alvo: number; moveu: boolean } | null>(null)
+  const ignorarClique = useRef(false)
   const zoom = useRef<{ zoomMais: () => void; zoomMenos: () => void } | null>(null)
   const pedidoRota = useRef<AbortController | null>(null)
   const tituloPainel = useRef<HTMLHeadingElement>(null)
@@ -42,7 +48,8 @@ export default function Inicio() {
     setRota({ situacao: 'parado' })
     setSelecionada(e)
     setParametros({ estacao: e.id }, { replace: true })
-    setAberto(true)
+    setAltura((a) => (a === 'fechado' ? 'meio' : a))
+    navigator.vibrate?.(10) // toque leve no celular (o iPhone ignora)
     voar(e, 15.5)
     // Leva o foco do teclado para o painel, que é onde a resposta apareceu.
     requestAnimationFrame(() => tituloPainel.current?.focus())
@@ -101,6 +108,41 @@ export default function Inicio() {
 
   useEffect(() => () => pedidoRota.current?.abort(), [])
 
+  // Arrastar a alça do painel, como nos apps de mapa. Só no celular: no computador o painel é lateral.
+  // Tocar (sem arrastar) ou usar o teclado continua abrindo e fechando pelo onClick.
+  function comecarArrasto(ev: React.PointerEvent<HTMLButtonElement>) {
+    const el = painel.current
+    if (!el || window.matchMedia('(min-width: 52rem)').matches) return
+    arrasto.current = { y: ev.clientY, h: el.getBoundingClientRect().height, alvo: 0, moveu: false }
+    ev.currentTarget.setPointerCapture(ev.pointerId)
+  }
+  function moverArrasto(ev: React.PointerEvent<HTMLButtonElement>) {
+    const a = arrasto.current
+    const el = painel.current
+    if (!a || !el) return
+    const dy = ev.clientY - a.y
+    if (!a.moveu && Math.abs(dy) < 6) return
+    if (!a.moveu) { a.moveu = true; setArrastando(true) }
+    const limite = el.parentElement!.clientHeight * 0.88
+    a.alvo = Math.min(limite, Math.max(44, a.h - dy))
+    el.style.maxHeight = `${a.alvo}px`
+  }
+  function soltarArrasto() {
+    const a = arrasto.current
+    const el = painel.current
+    arrasto.current = null
+    if (!a?.moveu || !el) return
+    // Usa a altura que o dedo pediu, não a medida: com pouco conteúdo o painel não cresce de verdade.
+    const proporcao = a.alvo / el.parentElement!.clientHeight
+    el.style.maxHeight = ''
+    setArrastando(false)
+    setAltura(proporcao > 0.62 ? 'cheio' : proporcao > 0.18 ? 'meio' : 'fechado')
+    // O navegador às vezes dispara um clique logo depois do arrasto: ignora só esse.
+    ignorarClique.current = true
+    setTimeout(() => { ignorarClique.current = false }, 80)
+  }
+
+  const aberto = altura !== 'fechado'
   const perto = useMemo(() => (voce ? maisProximas(voce, 5) : []), [voce])
 
   return (
@@ -134,19 +176,30 @@ export default function Inicio() {
         </BotaoVidro>
       </div>
 
-      <section className={`painel vidro vidro--claro ${aberto ? 'painel--aberto' : ''}`} aria-labelledby="titulo-painel">
+      <section
+        ref={painel}
+        className={`painel vidro vidro--claro painel--${altura} ${aberto ? 'painel--aberto' : ''} ${arrastando ? 'painel--arrastando' : ''}`}
+        aria-labelledby="titulo-painel"
+      >
         <button
           type="button"
           className="painel__alca"
           aria-expanded={aberto}
           aria-controls="conteudo-painel"
-          onClick={() => setAberto((a) => !a)}
+          onPointerDown={comecarArrasto}
+          onPointerMove={moverArrasto}
+          onPointerUp={soltarArrasto}
+          onPointerCancel={soltarArrasto}
+          onClick={() => {
+            if (ignorarClique.current) { ignorarClique.current = false; return }
+            setAltura((a) => (a === 'fechado' ? 'meio' : 'fechado'))
+          }}
         >
           <span className="painel__puxador" aria-hidden="true" />
           <span className="sr-only">{aberto ? 'Recolher painel' : 'Abrir painel'}</span>
         </button>
 
-        <div id="conteudo-painel" className="painel__conteudo" hidden={!aberto}>
+        <div id="conteudo-painel" className="painel__conteudo" hidden={!aberto && !arrastando}>
           {selecionada ? (
             <PainelEstacao
               estacao={selecionada}
@@ -165,8 +218,7 @@ export default function Inicio() {
               {!voce && (
                 <>
                   <p className="painel__texto">
-                    Busque uma estação ou toque nela no mapa. Para ver as mais perto e traçar a rota a pé, use a sua
-                    localização.
+                    Busque ou toque numa estação. Com a sua localização, mostramos as mais perto e a rota a pé.
                   </p>
                   <button type="button" className="botao-acento" onClick={() => ondeEstou()} disabled={local === 'buscando'}>
                     {local === 'buscando' ? 'Procurando você…' : 'Usar minha localização'}
@@ -188,14 +240,26 @@ export default function Inicio() {
                 </ul>
               )}
               <div className="painel__rodape">
-                <label className="filtro-linha">
-                  <span>Mostrar</span>
-                  <select value={filtro ?? ''} onChange={(ev) => setFiltro(ev.target.value === '' ? null : Number(ev.target.value))}>
-                    <option value="">Todas as linhas</option>
-                    {LINHAS.map((l) => <option key={l.numero} value={l.numero}>Linha {l.numero}-{l.nome}</option>)}
-                  </select>
-                </label>
-                <Link to="/linhas" className="link-forte">Ver lista de linhas</Link>
+                <p className="painel__rotulo" id="rotulo-filtro">Mostrar no mapa</p>
+                {/* Chips em vez de lista suspensa: dá para ver todas as linhas e trocar com um toque. */}
+                <div className="chips-linhas" role="group" aria-labelledby="rotulo-filtro">
+                  <button type="button" className="chip-linha chip-linha--todas" aria-pressed={filtro === null} onClick={() => setFiltro(null)}>
+                    Todas
+                  </button>
+                  {LINHAS.map((l) => (
+                    <button
+                      key={l.numero}
+                      type="button"
+                      className="chip-linha"
+                      aria-pressed={filtro === l.numero}
+                      aria-label={`Só a Linha ${l.numero}-${l.nome}`}
+                      style={{ '--cor': l.cor, '--cor-texto': corDoTexto(l.cor) } as React.CSSProperties}
+                      onClick={() => setFiltro((f) => (f === l.numero ? null : l.numero))}
+                    >
+                      <span aria-hidden="true">{l.numero}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </>
           )}

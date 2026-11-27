@@ -26,9 +26,9 @@ export default function App() {
           </Link>
           <nav aria-label="Principal">
             <ul className="menu">
-              <li><NavLink to="/" end>Mapa</NavLink></li>
-              <li><NavLink to="/linhas">Linhas</NavLink></li>
-              <li><NavLink to="/guia">Guia</NavLink></li>
+              <li><NavLink to="/" end><IconeMenu nome="mapa" /><span>Mapa</span></NavLink></li>
+              <li><NavLink to="/linhas"><IconeMenu nome="linhas" /><span>Linhas</span></NavLink></li>
+              <li><NavLink to="/guia"><IconeMenu nome="guia" /><span>Guia</span></NavLink></li>
             </ul>
           </nav>
         </div>
@@ -54,5 +54,17 @@ export default function App() {
       )}
       <PaletaPrevia />
     </>
+  )
+}
+
+/** Ícones do menu: só aparecem no celular, onde o menu vira a barra de baixo (como nos apps). */
+function IconeMenu({ nome }: { nome: 'mapa' | 'linhas' | 'guia' }) {
+  return (
+    <svg className="menu__icone" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {nome === 'mapa' && <><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z" /><path d="M9 4v14M15 6v14" /></>}
+      {nome === 'linhas' && <><circle cx="6" cy="6" r="2.2" /><circle cx="6" cy="18" r="2.2" /><path d="M6 8.2v7.6" /><path d="M11 6h10M11 12h10M11 18h10" /></>}
+      {nome === 'guia' && <><circle cx="12" cy="12" r="9" /><path d="M12 11v6" /><path d="M12 7.5v.01" /></>}
+    </svg>
   )
 }
