@@ -12,3 +12,4 @@
 | D-009 | Vidro líquido sobre o mapa, controles arredondados, movimento com motivo, 3 paletas em prévia | Proposta | `80-memoria/decisoes/D-009_vidro-liquido-paletas.md` |
 | D-010 | No celular: menu na barra de baixo, texto 16 px, gaveta do mapa arrastável, chips de linha | Valendo | `80-memoria/decisoes/D-010_celular-jeito-de-app.md` |
 | D-011 | Relatos no ar: só quem está na estação (500 m), prazo 3 h com teto de 24 h, funções no Supabase | Valendo | `80-memoria/decisoes/D-011_relatos-no-ar.md` |
+| D-012 | Modo escuro (segue o celular, botão salva) e alertas de passageiros no mapa | Valendo | `80-memoria/decisoes/D-012_modo-escuro-e-alertas-no-mapa.md` |
