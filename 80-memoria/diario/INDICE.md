@@ -7,3 +7,4 @@
 | 2026-11-17 | claude | Mapa como tela inicial (rota sem escadas) e repaginada com a skill front-design-supremo | `80-memoria/diario/2026-11-17_claude_mapa-e-vidro.md` |
 | 2026-11-17 | claude | Botão "Ver no mapa e traçar rota" na página da estação | `80-memoria/diario/2026-11-17_claude_ver-no-mapa.md` |
 | 2026-11-17 | claude | Responsividade: topo numa linha, mapa sem rolagem, controles e painel por tamanho de tela | `80-memoria/diario/2026-11-17_claude_responsividade.md` |
+| 2026-11-27 | claude | Celular com jeito de app: barra de baixo, 16 px, gaveta arrastável, chips de linha | `80-memoria/diario/2026-11-27_claude_celular-jeito-de-app.md` |

@@ -10,3 +10,4 @@
 | D-007 | Situação dos recursos vem de testes em campo do grupo, numa tabela que o site lê | Valendo | `80-memoria/decisoes/D-007_testes-em-campo.md` |
 | D-008 | Mapa vira a tela inicial (MapLibre + OpenFreeMap), com onde estou e rota a pé / sem escadas (Valhalla) | Valendo | `80-memoria/decisoes/D-008_mapa-inicio-rota-sem-escadas.md` |
 | D-009 | Vidro líquido sobre o mapa, controles arredondados, movimento com motivo, 3 paletas em prévia | Proposta | `80-memoria/decisoes/D-009_vidro-liquido-paletas.md` |
+| D-010 | No celular: menu na barra de baixo, texto 16 px, gaveta do mapa arrastável, chips de linha | Valendo | `80-memoria/decisoes/D-010_celular-jeito-de-app.md` |

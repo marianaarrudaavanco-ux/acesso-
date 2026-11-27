@@ -473,7 +473,7 @@ main.main--mapa { max-width: none; padding: 0; position: relative; display: flex
 }
 
 /* Celular deitado: painel na lateral esquerda (como no computador) e busca à direita dele. */
-@media (orientation: landscape) and (max-height: 520px) and (max-width: 51.99rem) {
+@media (orientation: landscape) and (max-height: 520px) {
   .painel { left: .6rem; right: auto; top: .6rem; bottom: .6rem; width: min(20rem, 46%); max-height: none; margin: 0; }
   .painel:not(.painel--aberto) { bottom: auto; max-height: 44px; }
   .busca-flutuante { left: calc(min(20rem, 46%) + 1.2rem); right: 4.5rem; top: .6rem; }
@@ -486,4 +486,125 @@ main.main--mapa { max-width: none; padding: 0; position: relative; display: flex
  * pseudo-elementos, e a faixa do diagrama é um ::before. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- Celular: jeito de app ----------
+ * Menu vira a barra de baixo (o polegar alcança), a escala cai para 16 px (o padrão dos
+ * celulares, e o zoom do sistema continua funcionando), o painel do mapa vira uma gaveta
+ * que se arrasta, e todo botão responde ao toque. */
+html { -webkit-tap-highlight-color: transparent; }
+.menu__icone { display: none; }
+
+/* Filtro de linhas em chips (Inicio.tsx). */
+.painel__rodape { display: block; }
+.painel__rotulo { margin: 0 0 .45rem; font-size: .85rem; font-weight: 700; color: var(--suave); }
+.chips-linhas {
+  display: flex; gap: .4rem; overflow-x: auto; padding: 5px 5px 8px; margin: 0 -5px;
+  scroll-snap-type: x proximity; scrollbar-width: none; overscroll-behavior-x: contain;
+}
+.chips-linhas::-webkit-scrollbar { display: none; }
+.chip-linha {
+  flex: none; scroll-snap-align: start; min-width: 44px; height: 44px; padding: 0 .3rem; border: 0; border-radius: 12px;
+  background: var(--cor); color: var(--cor-texto); font: inherit; font-weight: 700; cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); transition: transform .15s ease, opacity .2s ease;
+}
+.chip-linha--todas { padding: 0 .9rem; background: rgba(255,255,255,.8); color: var(--tinta); box-shadow: inset 0 0 0 2px var(--tinta); }
+.chip-linha--todas[aria-pressed='true'] { background: var(--tinta); color: var(--branco); }
+.chip-linha:not(.chip-linha--todas)[aria-pressed='true'] { box-shadow: 0 0 0 2px var(--branco), 0 0 0 4px var(--tinta); }
+/* Com uma linha escolhida, as outras ficam apagadas (o número segue no aria-label). */
+.chips-linhas:has(.chip-linha:not(.chip-linha--todas)[aria-pressed='true']) .chip-linha:not([aria-pressed='true']):not(.chip-linha--todas) { opacity: .5; }
+
+.painel--arrastando { transition: none; }
+.painel__alca { touch-action: none; }
+
+/* Retorno ao toque: o botão "afunda" um pouco. Só em tela de toque, para não mexer no mouse. */
+@media (hover: none) {
+  .botao, .botao-acento, .botao-contorno, .botao-vidro, .botao-fechar, .chip-linha { transition: transform .12s ease, background .2s ease; }
+  .botao:active, .botao-acento:active, .botao-contorno:active, .botao-vidro:active, .botao-fechar:active, .chip-linha:active { transform: scale(.95); }
+  .linha-item:active, .diagrama__estacao:active, .resultados a:active, .lista-simples-links a:active,
+  .lista-perto button:active, .busca-flutuante__resultados button:active { background: rgba(255,255,255,.85); }
+}
+
+/* Celular em pé ou deitado (deitado passa de 52rem de largura, mas é baixo e de toque). */
+@media (max-width: 51.99rem), (hover: none) and (max-height: 520px) {
+  :root { font-size: 100%; --barra: calc(62px + env(safe-area-inset-bottom)); --margem: 1rem; }
+  body { padding-bottom: var(--barra); }
+  h1 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+  h2 { font-size: 1.2rem; }
+
+  /* Topo só com a marca; o menu desce para a barra fixa. */
+  .topo__barra { padding: 0 1rem; padding-left: max(1rem, env(safe-area-inset-left)); }
+  .marca { min-height: 48px; font-size: 1.05rem; }
+  .marca__sp { display: inline; }
+  .marca__texto { display: inline; }
+  .piso-tatil { height: 8px; background-size: 8px 8px; }
+  .topo nav {
+    position: fixed; z-index: 40; left: 0; right: 0; bottom: 0;
+    background: var(--tinta); padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -10px 30px rgba(6,10,28,.2);
+  }
+  .menu { height: 62px; }
+  .menu li { flex: 1; }
+  .menu a { flex-direction: column; justify-content: center; gap: 3px; padding: 0; font-size: .78rem; color: #b9b7b1; }
+  .menu__icone { display: block; transition: transform .2s cubic-bezier(.34,1.56,.64,1); }
+  .menu a.active .menu__icone { transform: translateY(-1px) scale(1.08); }
+  .menu a.active::after { top: 0; bottom: auto; left: 28%; right: 28%; height: 4px; border-radius: 0 0 4px 4px; }
+  .paleta-previa { bottom: calc(var(--barra) + .5rem); }
+
+  main { padding-bottom: 2.5rem; }
+  .faixa { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+
+  /* Mapa: busca e botões mais baixos, botões em coluna na direita. */
+  .busca-flutuante { top: .75rem; left: .75rem; right: .75rem; }
+  .busca-flutuante__campo { min-height: 3rem; }
+  .busca-flutuante__campo input { height: 3rem; font-size: 1rem; }
+  .controles-mapa { top: 4.4rem; right: .75rem; grid-auto-flow: row; gap: .4rem; }
+  .botao-vidro { width: 44px; height: 44px; }
+  .controle-sinal { font-size: 1.4rem; }
+  .painel__conteudo { padding: 0 1rem 1rem; }
+  .painel h2 { font-size: 1.15rem; }
+  .painel__texto { font-size: .95rem; margin-bottom: .75rem; }
+  .painel-estacao__acoes { display: grid; grid-template-columns: 1fr 1fr; }
+  .painel-estacao__acoes > :first-child { grid-column: 1 / -1; }
+  .lista-perto button { min-height: 3rem; }
+
+  /* Linhas */
+  .busca-faixa__titulo { font-size: 1.6rem; margin-bottom: 1rem; }
+  .busca-faixa__sub { margin: -.5rem 0 1rem; font-size: .95rem; }
+  .busca input { min-height: 3rem; font-size: 1rem; }
+  .colunas-linhas { margin-top: 1rem; }
+  .linha-item { min-height: 3.5rem; gap: .8rem; padding: .5rem .25rem; }
+  .linha-item__nome { font-size: 1rem; }
+  .linha-item__terminais { font-size: .82rem; }
+
+  /* Linha */
+  .faixa-linha__numero { min-width: 3rem; height: 3rem; font-size: 1.5rem; }
+  .diagrama__estacao { min-height: 3rem; }
+  .diagrama__nome { font-size: 1rem; }
+
+  /* Estação: botões ocupam a largura toda (alvo grande, fácil de achar). */
+  .placa__nome { font-size: clamp(1.8rem, 9vw, 2.6rem); }
+  .acoes-estacao { display: grid; gap: .5rem; margin-top: 1.25rem; }
+  .acoes-estacao .botao { width: 100%; min-height: 3.25rem; font-size: 1rem; }
+  .bloco { margin-top: 2rem; }
+  .tabela-recursos th, .tabela-recursos td { font-size: .95rem; }
+}
+
+/* Gaveta do mapa no celular em pé: encosta embaixo e tem três alturas (Inicio.tsx).
+ * Celular deitado (altura até 520px) continua com o painel lateral de antes. */
+@media (max-width: 51.99rem) and (min-height: 521px) {
+  .painel {
+    left: 0; right: 0; bottom: 0; border-radius: 22px 22px 0 0;
+    max-width: 36rem; margin-inline: auto;
+  }
+  .painel--meio { max-height: 48%; }
+  .painel--cheio { max-height: 88%; }
+  .painel--fechado { max-height: 44px; }
+  .mapa-sp .maplibregl-ctrl-bottom-right, .mapa-sp .maplibregl-ctrl-bottom-left { bottom: 44px; }
+}
+
+/* Celular deitado: a busca fica à direita do painel lateral (repete a regra de cima, que o bloco do celular sobrescreve). */
+@media (orientation: landscape) and (max-height: 520px) {
+  .busca-flutuante { left: calc(min(20rem, 46%) + 1.2rem); right: 4.5rem; top: .6rem; }
+  .controles-mapa { top: .6rem; right: .6rem; }
 }
