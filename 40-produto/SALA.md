@@ -33,7 +33,8 @@
 | `40-produto/app/src/data/relatos.ts` | Avisos de passageiros: chamadas ao Supabase, ID anônimo, localização, prazo |
 | `40-produto/app/src/components/Relatos.tsx` | Seção de avisos na página da estação (lista, confirmar, formulário) |
 | `40-produto/app/src/components/Icone.tsx` | Ícones SVG dos recursos |
-| `40-produto/app/src/index.css` | Todo o visual; cores em variáveis no topo |
+| `40-produto/app/src/index.css` | Todo o visual; cores por função no topo, modo escuro no fim (D-012) |
+| `40-produto/app/src/components/tema.ts` | Modo claro/escuro: segue o celular, botão salva a escolha |
 | `40-produto/app/vercel.json` | Faz as rotas funcionarem ao recarregar a página na Vercel |
 
 ## Como rodar

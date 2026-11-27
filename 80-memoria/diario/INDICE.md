@@ -9,3 +9,4 @@
 | 2026-11-17 | claude | Responsividade: topo numa linha, mapa sem rolagem, controles e painel por tamanho de tela | `80-memoria/diario/2026-11-17_claude_responsividade.md` |
 | 2026-11-27 | claude | Celular com jeito de app: barra de baixo, 16 px, gaveta arrastável, chips de linha | `80-memoria/diario/2026-11-27_claude_celular-jeito-de-app.md` |
 | 2026-11-27 | claude | Relatos colaborativos no ar (Supabase), só de quem está na estação, prazo de 3 h com teto de 24 h | `80-memoria/diario/2026-11-27_claude_relatos-no-ar.md` |
+| 2026-11-27 | claude | Modo escuro e alertas de passageiros no mapa | `80-memoria/diario/2026-11-27_claude_escuro-e-alertas.md` |

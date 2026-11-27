@@ -16,7 +16,8 @@ import MapaSP from '../mapa/MapaSP'
 import { distanciaM, maisProximas, textoDistancia, type Posicao } from '../mapa/geo'
 import { calcularRota, textoTempo, type Rota, type TipoRota } from '../mapa/rota'
 import { useBrilhoVidro } from '../components/useBrilhoVidro'
-import { haQuanto, idsDoMesmoLugar, RELATOS_LIGADOS, textoTipo, useRelatos } from '../data/relatos'
+import { haQuanto, idsDoMesmoLugar, textoTipo, useRelatos, type Relato } from '../data/relatos'
+import { useTema } from '../components/tema'
 
 // Altura do painel no celular: só a alça, metade da tela ou quase tudo (para ler a rota).
 type Altura = 'fechado' | 'meio' | 'cheio'
@@ -144,6 +145,30 @@ export default function Inicio() {
   }
 
   const aberto = altura !== 'fechado'
+  // Avisos de passageiros de todas as estações: viram alerta no mapa, na lista e no painel.
+  const tema = useTema()
+  const { lista: avisos } = useRelatos(null)
+  // Um aviso na Sé da Linha 1 marca também a Sé da Linha 3 (é o mesmo lugar).
+  const idsComAviso = useMemo(() => {
+    const nomes = new Set(avisos.map((a) => estacaoPorId(a.estacao_id)?.nome))
+    return ESTACOES.filter((e) => nomes.has(e.nome)).map((e) => e.id)
+  }, [avisos])
+  const estacoesComAviso = useMemo(() => {
+    const porNome = new Map<string, { estacao: Estacao; avisos: Relato[] }>()
+    for (const a of avisos) {
+      const e = estacaoPorId(a.estacao_id)
+      if (!e) continue
+      const item = porNome.get(e.nome) ?? { estacao: e, avisos: [] }
+      item.avisos.push(a)
+      porNome.set(e.nome, item)
+    }
+    return [...porNome.values()]
+  }, [avisos])
+  const avisosDe = (e: Estacao) => {
+    const ids = idsDoMesmoLugar(e)
+    return avisos.filter((a) => ids.includes(a.estacao_id))
+  }
+
   const perto = useMemo(() => (voce ? maisProximas(voce, 5) : []), [voce])
 
   return (
@@ -155,6 +180,8 @@ export default function Inicio() {
         voce={voce}
         rota={rota.situacao === 'ok' ? rota.rota : null}
         foco={foco}
+        alertas={idsComAviso}
+        escuro={tema === 'escuro'}
         aoPronto={(c) => { zoom.current = c }}
       />
 
@@ -207,6 +234,7 @@ export default function Inicio() {
               voce={voce}
               rota={rota}
               local={local}
+              avisos={avisosDe(selecionada)}
               tituloRef={tituloPainel}
               aoFechar={fechar}
               aoPedirRota={pedirRota}
@@ -232,13 +260,35 @@ export default function Inicio() {
                   {perto.map(({ estacao, linhas, metros }) => (
                     <li key={estacao.id}>
                       <button type="button" onClick={() => selecionar(estacao)}>
-                        <span className="lista-perto__nome">{estacao.nome}</span>
+                        <span className="lista-perto__nome">
+                          {idsComAviso.includes(estacao.id) && <span className="relato__alerta relato__alerta--pequeno" aria-hidden="true">!</span>}
+                          {estacao.nome}
+                          {idsComAviso.includes(estacao.id) && <span className="sr-only"> (tem aviso de passageiro)</span>}
+                        </span>
                         <span className="selos">{linhas.map((n) => <SeloLinha key={n} numero={n} tamanho="pequeno" />)}</span>
                         <span className="lista-perto__dist">{textoDistancia(metros)}<span className="sr-only"> em linha reta</span></span>
                       </button>
                     </li>
                   ))}
                 </ul>
+              )}
+              {estacoesComAviso.length > 0 && (
+                <div className="avisos-lista">
+                  <p className="painel__rotulo">Avisos de passageiros agora</p>
+                  <ul>
+                    {estacoesComAviso.map(({ estacao, avisos: lista }) => (
+                      <li key={estacao.nome}>
+                        <button type="button" onClick={() => selecionar(estacao)}>
+                          <span className="relato__alerta relato__alerta--pequeno" aria-hidden="true">!</span>
+                          <span>
+                            <strong>{estacao.nome}</strong>: {textoTipo(lista[0].tipo).toLowerCase()}
+                            {lista.length > 1 && ` e mais ${lista.length - 1}`}, {haQuanto(lista[0].criado_em)}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
               <div className="painel__rodape">
                 <p className="painel__rotulo" id="rotulo-filtro">Mostrar no mapa</p>
@@ -276,11 +326,12 @@ function AvisoLocal({ local }: { local: EstadoLocal }) {
   return null
 }
 
-function PainelEstacao({ estacao, voce, rota, local, tituloRef, aoFechar, aoPedirRota }: {
+function PainelEstacao({ estacao, voce, rota, local, avisos, tituloRef, aoFechar, aoPedirRota }: {
   estacao: Estacao
   voce: Posicao | null
   rota: EstadoRota
   local: EstadoLocal
+  avisos: Relato[]
   tituloRef: React.RefObject<HTMLHeadingElement | null>
   aoFechar: () => void
   aoPedirRota: (t: TipoRota) => void
@@ -305,7 +356,7 @@ function PainelEstacao({ estacao, voce, rota, local, tituloRef, aoFechar, aoPedi
         </button>
       </div>
 
-      {RELATOS_LIGADOS && <AvisosAgora estacao={estacao} />}
+      <AvisosAgora estacao={estacao} lista={avisos} />
 
       <p className="painel-estacao__testes">
         {testes.length === 0
@@ -414,8 +465,7 @@ function BotaoVidro({ rotulo, aoClicar, ativo, children }: { rotulo: string; aoC
 }
 
 /** Resumo dos avisos de passageiros no painel do mapa; os detalhes ficam na página da estação. */
-function AvisosAgora({ estacao }: { estacao: Estacao }) {
-  const { lista } = useRelatos(idsDoMesmoLugar(estacao))
+function AvisosAgora({ estacao, lista }: { estacao: Estacao; lista: Relato[] }) {
   if (lista.length === 0) return null
   const [primeiro, ...resto] = lista
   return (

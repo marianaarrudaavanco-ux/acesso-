@@ -97,7 +97,8 @@ async function rpc<T>(funcao: string, corpo: object): Promise<T> {
   return (texto ? JSON.parse(texto) : null) as T
 }
 
-export function buscarRelatos(estacoes: string[]): Promise<Relato[]> {
+/** null = de todas as estações (o mapa usa para marcar onde tem aviso). */
+export function buscarRelatos(estacoes: string[] | null): Promise<Relato[]> {
   return rpc<Relato[]>('relatos_ativos', { p_estacoes: estacoes })
 }
 
@@ -144,11 +145,11 @@ export function horaEData(iso: string): string {
 }
 
 /**
- * Avisos ativos das estações pedidas, atualizados a cada 30 s enquanto a tela está aberta.
+ * Avisos ativos das estações pedidas (null = todas), atualizados a cada 30 s enquanto a tela está aberta.
  * 30 s e não "ao vivo" (Realtime): é mais simples, e para elevador parado meio minuto não muda nada.
  */
-export function useRelatos(estacoes: string[]) {
-  const chave = estacoes.join(',')
+export function useRelatos(estacoes: string[] | null) {
+  const chave = estacoes === null ? '*' : estacoes.join(',')
   const [lista, setLista] = useState<Relato[]>([])
   const [erro, setErro] = useState<string | null>(null)
   const [carregando, setCarregando] = useState(RELATOS_LIGADOS)
@@ -156,7 +157,7 @@ export function useRelatos(estacoes: string[]) {
   const recarregar = useCallback(async () => {
     if (!RELATOS_LIGADOS || !chave) return
     try {
-      setLista(await buscarRelatos(chave.split(',')))
+      setLista(await buscarRelatos(chave === '*' ? null : chave.split(',')))
       setErro(null)
     } catch (e) {
       setErro((e as Error).message)

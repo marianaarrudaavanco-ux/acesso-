@@ -7,6 +7,15 @@
     <meta name="theme-color" content="#14161a" />
     <meta name="description" content="Acessibilidade no metrô e nos trens de São Paulo: estações, linhas e como chegar." />
     <title>AccessMetro SP</title>
+    <!-- Aplica o tema antes de tudo, para a tela não piscar branca no modo escuro (ver src/components/tema.ts). -->
+    <script>
+      try {
+        var t = localStorage.getItem('accessmetro:tema')
+        if (t !== 'claro' && t !== 'escuro') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro'
+        document.documentElement.dataset.tema = t
+        if (t === 'escuro') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0a0b0d')
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
