@@ -3,3 +3,4 @@
 
 | Data | Quem | O que atrapalhou | Sugestão |
 |---|---|---|---|
+- 2026-11-27 · claude · `verificar_palacio.py` acusa segredo em `apikey: VARIAVEL` (nome de cabeçalho lendo variável de ambiente). Contornado pondo o nome entre aspas; vale o regex ignorar valores que são só um nome de variável.

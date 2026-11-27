@@ -85,7 +85,8 @@ async function rpc<T>(funcao: string, corpo: object): Promise<T> {
   if (!RELATOS_LIGADOS) throw new Error('Avisos indisponíveis agora.')
   const r = await fetch(`${URL_SUPABASE}/rest/v1/rpc/${funcao}`, {
     method: 'POST',
-    headers: { apikey: CHAVE_PUBLICA!, 'Content-Type': 'application/json' },
+    // A chave vem da variável de ambiente (nunca escrita aqui). É a pública: o banco protege com as funções.
+    headers: { 'apikey': CHAVE_PUBLICA!, 'Content-Type': 'application/json' },
     body: JSON.stringify(corpo),
   })
   if (!r.ok) {
