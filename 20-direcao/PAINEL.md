@@ -17,9 +17,10 @@
 | Estações e linhas | `30-dados/linhas.md` | 211 estações conferidas; operadoras com fonte | Rodar `30-dados/scripts/conferir_estacoes.py` quando abrir estação nova | claude |
 | Testes em campo | `40-produto/app/src/data/vistorias.md` | Pronto para receber testes (D-007) | Grupo ir às estações | grupo |
 | Status real das linhas | `30-dados/fontes-de-dados.md` | Pesquisado | Escolher página oficial e criar `/api/status` | claude |
-| Relatos colaborativos | `30-dados/relatos-colaborativos.md` | Desenhado | Criar tabelas no Supabase | claude / enzo revisa |
+| Relatos colaborativos | `30-dados/relatos-colaborativos.md` | No ar no código (D-011), banco `accessmetro` no Supabase | Pôr as 2 variáveis na Vercel e testar numa estação | enzo / mariana |
 
 ## Bloqueios e "a confirmar"
+- [ ] Vercel: adicionar `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` (valores no PR dos relatos) e fazer redeploy.
 - [ ] Paleta escolhida pelo grupo.
 - [ ] Nomes e papéis do grupo em `00-portaria/agentes.md`.
 - [ ] Tela Premium fica ou sai? (`10-projeto/proposta.md`)
